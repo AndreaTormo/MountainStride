@@ -1,0 +1,69 @@
+<?php
+$path = 'C:/wamp64/www/CRUD/Mountain_stride_MVC_v11 - copia_filtros/';
+include($path . "model/connect.php");
+
+class DAOHome {
+	function select_all_running()
+        {
+        $sql = "SELECT * FROM running";
+        $conexion = connect::con();
+        $stmt = $conexion->prepare($sql);
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        connect::close($conexion);
+        return $res;
+        }
+
+	 function select_all_circuits()
+        {
+        $sql = "SELECT * FROM circuits";
+        $conexion = connect::con();
+        $stmt = $conexion->prepare($sql);
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        connect::close($conexion);
+        return $res;
+        }
+
+	function select_all_distance()
+        {
+        // Keep only the latest row per distance name to avoid old duplicated images.
+        $sql = "SELECT d.*
+                FROM distance d
+                INNER JOIN (
+                    SELECT distance_name, MAX(id_distance) AS max_id
+                    FROM distance
+                    GROUP BY distance_name
+                ) latest
+                ON latest.max_id = d.id_distance
+                ORDER BY d.id_distance ASC";
+        $conexion = connect::con();
+        $stmt = $conexion->prepare($sql);
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        connect::close($conexion);
+        return $res;
+        }
+
+	function select_all_land()
+        {
+        $sql = "SELECT * FROM land";
+        $conexion = connect::con();
+        $stmt = $conexion->prepare($sql);
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        connect::close($conexion);
+        return $res;
+        }
+ 
+        function select_all_runners()
+                {
+                $sql = "SELECT * FROM runners ORDER BY runner_wins DESC, runner_km DESC, runner_name ASC";
+                $conexion = connect::con();
+                $stmt = $conexion->prepare($sql);
+                $stmt->execute();
+                $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                connect::close($conexion);
+                return $res;
+                }
+        }

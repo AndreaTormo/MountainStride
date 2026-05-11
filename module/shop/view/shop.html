@@ -1,0 +1,399 @@
+<!-- ===== SHOP HEADER ===== -->
+<section class="py-16 px-6 lg:px-20 max-w-[1440px] mx-auto">
+    <div class="mb-10">
+        <h3 class="text-primary font-black uppercase tracking-[0.3em] text-sm mb-2">All Races</h3>
+        <h2 class="text-4xl md:text-5xl font-black italic uppercase">Find Your Race</h2>
+    </div>
+
+    <!-- Layout: sidebar + grid -->
+    <div class="shop-layout">
+        <!-- Sidebar filtros -->
+        <aside class="filters_container"></aside>
+
+        <!-- Contenido -->
+        <div class="shop-content">
+            <div id="content_shop_running" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6"></div>
+            <div id="shop-pagination" style="margin-top:16px; display:flex; gap:12px; align-items:center; justify-content:center;"></div>
+
+            <!-- Detalls d'una carrera (ocult per defecte) -->
+            <div id="details-shop" style="display:none;">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div id="container-img-shop"></div>
+                    <div id="container-info-shop"></div>
+                </div>
+                <div id="map-detail" style="display:none; height:420px; width:100%; margin-top:32px; border-radius:14px; border:1px solid rgba(244,140,37,0.15);"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* ── Layout principal ── */
+    .shop-layout {
+        display: flex;
+        gap: 28px;
+        align-items: flex-start;
+    }
+
+    .shop-content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    /* ── Sidebar / Filtros ── */
+    .filters_container {
+        width: 230px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 24px;
+    }
+
+    .filters {
+        width: 100%;
+        background: #1e1208;
+        border: 1px solid rgba(244,140,37,0.12);
+        border-radius: 14px;
+        padding: 20px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .filter-group {
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(244,140,37,0.08);
+    }
+
+    .filter-group:last-of-type {
+        border-bottom: none;
+    }
+
+    .filter-group-label {
+        margin: 0 0 10px;
+        color: #a0846a;
+        font-size: 10px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-family: 'Lexend', sans-serif;
+    }
+
+    /* ── Radio buttons (Status / Distance) ── */
+    .filter-group label {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: #c9a882;
+        font-size: 13px;
+        font-family: 'Lexend', sans-serif;
+        cursor: pointer;
+        padding: 5px 0;
+        transition: color 0.15s;
+    }
+
+    .filter-group label:hover {
+        color: #f8f7f5;
+    }
+
+    .filter-group input[type="radio"],
+    .filter-group input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        flex-shrink: 0;
+        cursor: pointer;
+        transition: all 0.15s;
+    }
+
+    /* Radio */
+    .filter-group input[type="radio"] {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(244,140,37,0.35);
+        background: transparent;
+        position: relative;
+    }
+
+    .filter-group input[type="radio"]:checked {
+        border-color: #f48c25;
+        background: radial-gradient(circle, #f48c25 45%, transparent 46%);
+    }
+
+    /* Checkbox */
+    .filter-group input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        border: 1.5px solid rgba(244,140,37,0.35);
+        background: transparent;
+        position: relative;
+    }
+
+    .filter-group input[type="checkbox"]:checked {
+        background: #f48c25;
+        border-color: #f48c25;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 5l2.5 2.5L8 3' stroke='%231a1a1a' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 10px;
+    }
+
+    /* ── Botones del sidebar ── */
+    .boton_filter,
+    .filter_remove {
+        width: 100%;
+        margin-top: 8px;
+        padding: 11px 16px;
+        border-radius: 10px;
+        font-weight: 900;
+        font-size: 12px;
+        font-family: 'Lexend', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .boton_filter {
+        background: #f48c25;
+        color: #221910;
+        border: none;
+    }
+
+    .boton_filter:hover {
+        background: #ffffff;
+    }
+
+    .filter_remove {
+        background: transparent;
+        color: #f48c25;
+        border: 1px solid rgba(244,140,37,0.35);
+    }
+
+    .filter_remove:hover {
+        background: rgba(244,140,37,0.08);
+    }
+
+    /* ── Race Cards ── */
+    .race-card {
+        background-color: #1e1812;
+        border: 1px solid rgba(244, 140, 37, 0.15);
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .race-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(244, 140, 37, 0.5);
+    }
+
+    .race-card-img {
+        position: relative;
+        height: 160px;
+        overflow: hidden;
+    }
+
+    .race-card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s;
+    }
+
+    .race-card:hover .race-card-img img {
+        transform: scale(1.06);
+    }
+
+    .race-status-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+        font-family: 'Lexend', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+
+    .badge-open     { background: rgba(52, 168, 100, 0.9); color: #e8fff0; }
+    .badge-sold     { background: rgba(200, 60, 40, 0.9);  color: #fff2ee; }
+    .badge-upcoming { background: rgba(244, 140, 37, 0.9); color: #1a1a1a; }
+    .badge-closed   { background: rgba(80, 70, 60, 0.9);   color: #f0ebe3; }
+
+    .race-circuit-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(10, 8, 4, 0.75);
+        border: 1px solid rgba(244, 140, 37, 0.4);
+        padding: 3px 8px;
+        border-radius: 5px;
+        font-size: 10px;
+        font-weight: 700;
+        font-family: 'Lexend', sans-serif;
+        color: #f48c25;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    .race-card-body {
+        padding: 1rem 1.1rem;
+    }
+
+    .race-card-name {
+        font-size: 16px;
+        font-weight: 900;
+        font-family: 'Lexend', sans-serif;
+        color: #f8f7f5;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        margin-bottom: 4px;
+        line-height: 1.2;
+    }
+
+    .race-card-loc {
+        font-size: 12px;
+        color: #8a7f72;
+        margin-bottom: 10px;
+    }
+
+    .race-card-meta {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+    }
+
+    .race-card-meta span {
+        font-size: 11px;
+        font-weight: 700;
+        font-family: 'Lexend', sans-serif;
+        color: #8a7f72;
+        background: #2a221a;
+        border-radius: 5px;
+        padding: 3px 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .more_info_list {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 700;
+        font-family: 'Lexend', sans-serif;
+        color: #f48c25;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        cursor: pointer;
+        border-bottom: 1px solid rgba(244, 140, 37, 0.3);
+        padding-bottom: 1px;
+        transition: color 0.15s, border-color 0.15s;
+    }
+
+    .more_info_list:hover {
+        color: #ffffff;
+        border-color: #ffffff;
+    }
+
+    /* ── Responsive: en móvil el sidebar va arriba ── */
+    @media (max-width: 768px) {
+        .shop-layout {
+            flex-direction: column;
+        }
+
+        .filters_container {
+            width: 100%;
+            position: static;
+        }
+
+        .filters {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 14px;
+        }
+
+        .filter-group {
+            padding: 0;
+            border-bottom: none;
+            min-width: 140px;
+        }
+    }
+
+    .price-slider-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.price-slider-wrapper input[type="range"] {
+    width: 100%;
+    accent-color: var(--color-primary, #f59e0b); 
+    cursor: pointer;
+}
+
+.price-slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+#shop-pagination {
+    margin-top: 18px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.shop-page-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    border: 1px solid rgba(244, 140, 37, 0.45);
+    background: rgba(244, 140, 37, 0.12);
+    color: #f48c25;
+    font-family: 'Lexend', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.shop-page-btn:hover {
+    background: rgba(244, 140, 37, 0.24);
+    border-color: rgba(244, 140, 37, 0.8);
+    color: #fff;
+}
+
+.shop-page-btn.is-active {
+    background: #f48c25;
+    border-color: #f48c25;
+    color: #1f140a;
+}
+</style>
+
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+  #map-all {
+    height: 420px;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 14px;
+    margin-top: 32px;
+    border: 1px solid rgba(244,140,37,0.15);
+  }
+</style>
+
+<!-- Mapa global de todas las carreras -->
+<div id="map-all"></div>

@@ -1,0 +1,615 @@
+/* Global font (keep consistent across the whole UI) */
+html {
+  font-family: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+body{
+  font-family: inherit;
+}
+
+.material-symbols-outlined{
+font-variation-settings:
+'FILL' 0,
+'wght' 400,
+'GRAD' 0,
+'opsz' 24;
+}
+
+/* Header: top nav links (e.g. Home/Shop) */
+.header-nav-link{
+  font-size: 0.75rem;           /* ~text-xs */
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;       /* tracking-widest */
+  color: #f48c25;               /* primary */
+  text-decoration: none;
+  transition: opacity 0.2s ease, color 0.2s ease;
+  opacity: 0.95;
+}
+.header-nav-link:hover{
+  opacity: 1;
+  color: #f48c25;
+}
+
+/* ── Mini carousel (list) ── */
+.mini-carousel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 0.75rem;
+}
+.mini-carousel-track { width: 100%; height: 100%; }
+.mini-carousel-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+.mini-carousel-slide.active { opacity: 1; }
+.mini-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 10;
+}
+.mini-arrow:hover { background: rgba(244,140,37,0.85); }
+.mini-arrow.left  { left: 6px; }
+.mini-arrow.right { right: 6px; }
+
+/* ── Details carousel ── */
+.details-carousel {
+    position: relative;
+    width: 100%;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+}
+.details-carousel-track { width: 100%; height: 100%; }
+.details-carousel-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+.details-carousel-slide.active { opacity: 1; }
+.det-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 10;
+}
+.det-arrow:hover { background: rgba(244,140,37,0.85); }
+.det-arrow.left  { left: 12px; }
+.det-arrow.right { right: 12px; }
+.det-counter {
+    position: absolute;
+    bottom: 10px;
+    right: 14px;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+.img-container {
+    width: 100%;
+    height: 220px; /* ajusta según tu diseño */
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.75rem;
+}
+
+/* ===== EVENTS SWIPER CARDS — legacy block removed, see tokens below ===== */
+
+/* ═══════════════════════════════════════════════════════════════
+   MOUNTAIN STRIDE — home_styles.css
+   Importa este archivo en tu layout principal:
+   <link rel="stylesheet" href="module/home/view/home_styles.css">
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Google Fonts ─────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ── Design Tokens ────────────────────────────────────────────── */
+:root {
+  --c-primary:    #E87722;
+  --c-primary-dk: #c45e0e;
+  --c-dark:       #0a0805;
+  --c-surface:    #111008;
+  --c-card:       #181510;
+  --c-border:     rgba(232,119,34,0.15);
+  --c-text:       #f1f5f9;
+  --c-muted:      rgba(203,213,225,0.6);
+  --radius-card:  14px;
+  --shadow-card:  0 8px 40px rgba(0,0,0,0.45);
+  --transition:   0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ── Global Reset Helpers ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background: var(--c-dark);
+  color: var(--c-text);
+  margin: 0;
+}
+
+/* Ensure form controls match the global typeface */
+input, select, textarea, button {
+  font: inherit;
+}
+
+/* Header search layout */
+.div_search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.div_search .search_brand,
+.div_search .search_category,
+.div_search #autocom {
+  height: 40px;
+  min-width: 0;
+  padding: 0 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(232,119,34,0.25);
+  background: rgba(255,255,255,0.95);
+  color: #1f2937;
+  font-size: 0.9rem;
+}
+
+.div_search .search_brand,
+.div_search .search_category {
+  width: 120px;
+}
+
+.div_search #autocom {
+  width: 160px;
+}
+
+.div_search #search-btn {
+  height: 40px;
+  padding: 0 1rem;
+  border: none;
+  border-radius: 10px;
+  background: var(--c-primary);
+  color: #151515;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+#search_auto {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 248px;
+  width: 160px;
+  max-height: 220px;
+  overflow-y: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(232,119,34,0.25);
+  background: #ffffff;
+  color: #1f2937;
+  z-index: 60;
+}
+
+.searchElement {
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+}
+
+.searchElement:hover {
+  background: rgba(232,119,34,0.12);
+}
+
+@media (max-width: 1279px) {
+  .div_search {
+    display: none;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   1-3. EVENT CARDS, RUNNERS, CATEGORY CARDS
+   Styles are declared inline in home.html via <style> blocks.
+   ══════════════════════════════════════════════════════════════ */
+
+/* Legacy swiper slide width — kept for safety, not active */
+#containerCircuits .swiper-slide,
+#containerDistance .swiper-slide,
+#containerLand     .swiper-slide {
+  width: calc((100% - 36px) / 3) !important;
+  min-width: 220px;
+  max-width: 320px;
+  flex-shrink: 0;
+}
+
+/* containerCircuits/Distance/Land now use static HTML in home.html */
+
+.user_card {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  cursor: pointer;
+}
+
+.user_card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(232,119,34,0.55);
+  box-shadow: 0 20px 52px rgba(232,119,34,0.14), 0 4px 20px rgba(0,0,0,0.5);
+}
+
+/* Image wrapper */
+.cat-card__img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  background: #1a1610;
+}
+
+.cat-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.user_card:hover .cat-card__img {
+  transform: scale(1.07);
+}
+
+.cat-card__badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 17px;
+  background: rgba(10,8,5,0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(232,119,34,0.25);
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* Fallback letter shown when img fails */
+.cat-card__fallback {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1e1a14, var(--c-card));
+  align-items: center;
+  justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 56px;
+  font-style: italic;
+  color: var(--c-primary);
+}
+
+/* Card body */
+.cat-card__body {
+  padding: 1.1rem 1.2rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cat-card__name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(17px, 2vw, 21px);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  margin: 0;
+  color: var(--c-text);
+  line-height: 1.1;
+}
+
+.cat-card__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0;
+}
+
+/* Shared ticket/see-more button */
+.btn-ticket {
+  background: transparent;
+  color: var(--c-primary);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  border: 1px solid var(--c-primary);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.btn-ticket:hover {
+  background: var(--c-primary);
+  color: #fff;
+}
+
+/* Category card btn-primary — outlined style so it reads differently from event CTA */
+#containerCircuits .btn-primary,
+#containerDistance .btn-primary,
+#containerLand     .btn-primary,
+#containerRunners  .btn-primary {
+  background: transparent;
+  color: var(--c-primary);
+  border: 1.5px solid rgba(232,119,34,0.5);
+  font-size: 12px;
+  padding: 7px 16px;
+  letter-spacing: 0.13em;
+  transition: background var(--transition), color var(--transition), border-color var(--transition), transform var(--transition);
+}
+
+#containerCircuits .btn-primary:hover,
+#containerDistance .btn-primary:hover,
+#containerLand     .btn-primary:hover,
+#containerRunners  .btn-primary:hover {
+  background: var(--c-primary);
+  color: #fff;
+  border-color: var(--c-primary);
+  transform: none;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   4. CAROUSEL NAV BUTTONS  (custom prev/next used by JS)
+   ══════════════════════════════════════════════════════════════ */
+
+#circuitsPrev, #circuitsNext,
+#distancePrev,  #distanceNext,
+#landPrev,      #landNext,
+#runnersPrev,   #runnersNext,
+#circuitPrev,   #circuitNext,
+#distPrev,      #distNext {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(232,119,34,0.1);
+  border: 1px solid rgba(232,119,34,0.25);
+  color: var(--c-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+  font-size: 18px;
+  line-height: 1;
+}
+
+#circuitsPrev:hover, #circuitsNext:hover,
+#distancePrev:hover,  #distanceNext:hover,
+#landPrev:hover,      #landNext:hover,
+#runnersPrev:hover,   #runnersNext:hover,
+#circuitPrev:hover,   #circuitNext:hover,
+#distPrev:hover,      #distNext:hover {
+  background: var(--c-primary);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   5. SECTION LAYOUT — headings, spacing, backgrounds
+   ══════════════════════════════════════════════════════════════ */
+
+section {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+/* "Find Your Race" label above section title */
+h3.text-primary,
+.section-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--c-primary);
+  margin-bottom: 0.4rem;
+}
+
+/* Section main titles */
+h2.text-4xl,
+h2.text-5xl,
+.section-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 0.95;
+  color: var(--c-text);
+  margin: 0;
+}
+
+/* Alternating bg for sections */
+.bg-primary\/5 {
+  background: rgba(232,119,34,0.04) !important;
+  border-top: 1px solid var(--c-border) !important;
+  border-bottom: 1px solid var(--c-border) !important;
+}
+
+/* "View all" links */
+a.text-primary {
+  color: var(--c-primary);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(232,119,34,0.45);
+  background: rgba(232,119,34,0.10);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+  transition: transform var(--transition), background var(--transition), border-color var(--transition), gap var(--transition), box-shadow var(--transition);
+  user-select: none;
+}
+
+a.text-primary:hover {
+  gap: 12px;
+  transform: translateY(-1px);
+  background: rgba(232,119,34,0.18);
+  border-color: rgba(232,119,34,0.75);
+  box-shadow: 0 18px 44px rgba(232,119,34,0.12), 0 12px 34px rgba(0,0,0,0.45);
+}
+
+a.text-primary:active {
+  transform: translateY(0);
+}
+
+a.text-primary:focus-visible {
+  outline: 2px solid rgba(232,119,34,0.8);
+  outline-offset: 3px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   6. OVERFLOW WRAPPERS for custom carousels
+   ══════════════════════════════════════════════════════════════ */
+
+#distOuter,
+#circuitOuter,
+#landOuter {
+  overflow: hidden;
+}
+
+#containerDistance,
+#containerCircuits,
+#containerLand {
+  will-change: transform;
+}
+
+/* Dot indicators */
+#distDots .hero-dot,
+#circuitDots .hero-dot,
+#landDots .hero-dot,
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+  padding: 0;
+}
+
+#distDots .hero-dot.active,
+#circuitDots .hero-dot.active,
+#landDots .hero-dot.active,
+.carousel-dot.active {
+  background: var(--c-primary);
+  transform: scale(1.4);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   7. RESPONSIVE
+   ══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  #containerCircuits > div,
+  #containerDistance > div,
+  #containerLand     > div {
+    flex: 0 0 calc((100% - 20px) / 2);
+  }
+}
+
+@media (max-width: 640px) {
+  #containerCircuits > div,
+  #containerDistance > div,
+  #containerLand     > div {
+    flex: 0 0 80vw;
+  }
+
+  #containerRunners {
+    grid-template-columns: 1fr;
+  }
+
+  #containerRunners .user_card {
+    height: 120px;
+  }
+
+  #containerRunners .cat-card__img-wrap {
+    width: 110px;
+    min-width: 110px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   8. SCROLLBAR STYLE
+   ══════════════════════════════════════════════════════════════ */
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--c-dark); }
+::-webkit-scrollbar-thumb { background: var(--c-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--c-primary); }
+
+#map {
+    height: 200px; /* ← IMPRESCINDIBLE, sin esto el mapa aparece vacío */
+    width: 100%;
+}
+
+#map-all {
+    height: 420px;
+    width: 100%;        /* ocupa todo el shop-content */
+    border-radius: 14px;
+    margin-top: 32px;
+    border: 1px solid rgba(244,140,37,0.15);
+}

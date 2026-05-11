@@ -1,0 +1,277 @@
+function loadRunning() {
+
+    ajaxPromise('GET', 'JSON', 'module/home/controller/controller_home.php?op=homePageRunning')
+    .then(function(data) {
+        const wrapper = $('#evTrack');
+        wrapper.empty();
+
+        for (let row = 0; row < data.length; row++) {
+            const race = data[row];
+            wrapper.append(`
+                <div class="ev-card">
+                    <img src="${race.running_image || ''}" alt="${race.running_name || 'Race'}" onerror="this.style.display='none'"/>
+                    <div class="ev-overlay"></div>
+                    <div class="ev-price">
+                        <span class="ev-price-label">Distance</span>
+                        <span class="ev-price-val">${race.race_km || '-'} km</span>
+                    </div>
+                    <div class="ev-content">
+                        <span class="ev-tag">📅 ${race.race_date || '-'}</span>
+                        <h3 class="ev-title">${race.running_name || ''}</h3>
+                        <p class="ev-loc"><span class="ev-dot"></span>${race.location || ''}</p>
+                        <button class="ev-btn btn-running" data-running="${race.id_running}">More info</button>
+                    </div>
+                </div>
+            `);
+        }
+
+        if (typeof window.initEventsCarousel === 'function') {
+            window.initEventsCarousel();
+        }
+
+    }).catch(function() {
+        
+    });
+}
+
+function loadCircuits() {
+
+    ajaxPromise('GET', 'JSON', 'module/home/controller/controller_home.php?op=homePageCircuits')
+    .then(function(data) {
+        var wrapper = $('#circTrack');
+        wrapper.empty();
+
+        for (let row = 0; row < data.length; row++) {
+            $('<div></div>')
+                .addClass("cat-slide")
+                .appendTo('#circTrack')
+                .html(`
+                    <div class="user_card" id="${data[row].id_circuit}">
+                        <div class="cat-img-wrap">
+                            <span class="cat-badge">🏆</span>
+                            <img
+                                class="cat-img"
+                                src="${data[row].circuit_image || ''}"
+                                alt="${data[row].circuit_name || 'Circuit'}"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                            />
+                            <div class="cat-fallback">
+                                ${(data[row].circuit_name || 'C').charAt(0).toUpperCase()}
+                            </div>
+                        </div>
+                        <div class="cat-body">
+                            <h3 class="cat-name">${data[row].circuit_name || ''}</h3>
+                            <div class="cat-footer">
+                                <button class="btn-ticket btn-circuit" data-circuit="${data[row].id_circuit}">More info</button>
+                            </div>
+                        </div>
+                    </div>
+                `);
+        }
+
+        if (typeof window.initCatCarousel === 'function') {
+            window.initCatCarousel('circTrack', 'circPrev', 'circNext', 'circDots');
+        }
+
+    }).catch(function() {
+       
+    });
+}
+
+function loadDistance() {
+
+    // ajaxPromise('module/home/controller/controller_home.php?op=homePageDistance','GET', 'JSON')
+    ajaxPromise('GET', 'JSON', 'module/home/controller/controller_home.php?op=homePageDistance')
+    .then(function(data) {
+        var wrapper = $('#distTrack');
+        wrapper.empty();
+
+        for (let row = 0; row < data.length; row++) {
+            $('<div></div>')
+                .addClass("cat-slide")
+                .appendTo('#distTrack')
+                .html(`
+                    <div class="user_card" id="${data[row].id_distance}">
+                        <div class="cat-img-wrap">
+                            <span class="cat-badge">📏</span>
+                            <img
+                                class="cat-img"
+                                src="${data[row].distance_image || ''}"
+                                alt="${data[row].distance_name || 'Distance'}"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                            />
+                            <div class="cat-fallback">
+                                ${(data[row].distance_name || 'D').charAt(0).toUpperCase()}
+                            </div>
+                        </div>
+                        <div class="cat-body">
+                            <h3 class="cat-name">${data[row].distance_name || ''}</h3>
+                            <div class="cat-footer">
+                                <button class="btn-ticket btn-distance" data-distance="${data[row].id_distance}">More info</button>
+                            </div>
+                        </div>
+                    </div>
+                `);
+        }
+
+        if (typeof window.initCatCarousel === 'function') {
+            window.initCatCarousel('distTrack', 'distPrev', 'distNext', 'distDots');
+        }
+
+    }).catch(function() {
+        
+    });
+}
+
+function loadLand() {
+
+    // ajaxPromise('module/home/controller/controller_home.php?op=homePageLand','GET', 'JSON')
+    ajaxPromise('GET', 'JSON', 'module/home/controller/controller_home.php?op=homePageLand')
+    .then(function(data) {
+        var wrapper = $('#landTrack');
+        wrapper.empty();
+
+        for (let row = 0; row < data.length; row++) {
+            $('<div></div>')
+                .addClass("cat-slide")
+                .appendTo('#landTrack')
+                .html(`
+                    <div class="user_card" id="${data[row].id_land}">
+                        <div class="cat-img-wrap">
+                            <span class="cat-badge">🗻</span>
+                            <img
+                                class="cat-img"
+                                src="${data[row].land_image || ''}"
+                                alt="${data[row].land_name || 'Land'}"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                            />
+                            <div class="cat-fallback">
+                                ${(data[row].land_name || 'L').charAt(0).toUpperCase()}
+                            </div>
+                        </div>
+                        <div class="cat-body">
+                            <h3 class="cat-name">${data[row].land_name || ''}</h3>
+                            <div class="cat-footer">
+                                <button class="btn-ticket btn-land" data-land="${data[row].id_land}">More info</button>
+                            </div>
+                        </div>
+                    </div>
+                `);
+        }
+
+        if (typeof window.initCatCarousel === 'function') {
+            window.initCatCarousel('landTrack', 'landPrev', 'landNext', 'landDots');
+        }
+
+    }).catch(function() {
+        
+    });
+}
+
+function loadRunners() {
+
+    // ajaxPromise('module/home/controller/controller_home.php?op=homePageRunners','GET', 'JSON')
+    ajaxPromise('GET', 'JSON', 'module/home/controller/controller_home.php?op=homePageRunners')
+    .then(function(data) {
+        const wrapper = $('#containerRunners');
+        wrapper.empty();
+
+        for (let row = 0; row < data.length; row++) {
+            const wins = data[row].runner_wins || 0;
+            const km = data[row].runner_km || 0;
+            wrapper.append(`
+                <div class="runner-card" id="${data[row].id_runner}">
+                    <span class="runner-rank-bg">${wins}</span>
+                    <div class="runner-img-wrap">
+                        <img class="runner-img"
+                             src="${data[row].runner_image || ''}"
+                             alt="${data[row].runner_name || 'Runner'}"
+                             onerror="this.style.display='none'; this.closest('.runner-img-wrap').insertAdjacentHTML('beforeend', '<div class=&quot;cat-fallback&quot; style=&quot;display:flex;position:absolute;inset:0;&quot;>${(data[row].runner_name || 'R').charAt(0).toUpperCase()}</div>');"/>
+                        <span class="runner-medal">🏅</span>
+                    </div>
+                    <div class="runner-body">
+                        <p class="runner-name">${data[row].runner_name || ''}</p>
+                        <p class="runner-country">${data[row].runner_country || 'Elite Runner'}</p>
+                        <div class="runner-meta">
+                            <span class="runner-pill">${wins} wins</span>
+                            <span class="runner-pill">${Number(km).toLocaleString()} km</span>
+                        </div>
+                        <div class="runner-footer">
+                            <button class="btn-ticket btn-runner" data-runner="${data[row].id_runner}">More info</button>
+                        </div>
+                    </div>
+                </div>
+            `);
+        }
+
+    }).catch(function() {
+        
+    });
+}
+
+function homeClicks() {
+ 
+    // ── RUNNING
+    $(document).on("click", '.btn-running', function () {
+        var id_running = $(this).data('running');
+        localStorage.removeItem('filter_from_home');
+        localStorage.removeItem('filter');
+        localStorage.setItem('filter_from_home', id_running);
+        window.location.href = 'index.php?page=controller_shop&op=view';
+    });
+ 
+    // ── CIRCUIT
+    $(document).on("click", '.btn-circuit', function () {
+        var id_circuit = $(this).data('circuit');
+        var filter = [['id_circuit', id_circuit]];
+        localStorage.removeItem('filter_from_home');
+        localStorage.removeItem('filter');
+        localStorage.setItem('open_first_result', '1');
+        localStorage.setItem('filter', JSON.stringify(filter));
+        window.location.href = 'index.php?page=controller_shop&op=view';
+    });
+ 
+    // ── DISTANCE
+    $(document).on("click", '.btn-distance', function () {
+        var id_distance = $(this).data('distance');
+        var filter = [['id_distance', id_distance]];
+        localStorage.removeItem('filter_from_home');
+        localStorage.removeItem('filter');
+        localStorage.setItem('open_first_result', '1');
+        localStorage.setItem('filter', JSON.stringify(filter));
+        window.location.href = 'index.php?page=controller_shop&op=view';
+    });
+ 
+    // ── LAND
+    $(document).on("click", '.btn-land', function () {
+        var id_land = $(this).data('land');
+        var filter = [['id_land', id_land]];
+        localStorage.removeItem('filter_from_home');
+        localStorage.removeItem('filter');
+        localStorage.setItem('open_first_result', '1');
+        localStorage.setItem('filter', JSON.stringify(filter));
+        window.location.href = 'index.php?page=controller_shop&op=view';
+    });
+ 
+    // ── RUNNER
+    $(document).on("click", '.btn-runner', function () {
+        var id_runner = $(this).data('runner');
+        var filter = [['id_runner', id_runner]];
+        localStorage.removeItem('filter_from_home');
+        localStorage.removeItem('filter');
+        localStorage.setItem('open_first_result', '1');
+        localStorage.setItem('filter', JSON.stringify(filter));
+        window.location.href = 'index.php?page=controller_shop&op=view';
+    });
+}
+    
+
+/* ─── INIT ──────────────────────────────────────────────── */
+$(document).ready(function () {
+    loadRunning();
+    loadCircuits();
+    loadDistance();
+    loadLand();
+    loadRunners();
+    homeClicks();
+});

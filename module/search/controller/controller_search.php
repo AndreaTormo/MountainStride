@@ -37,30 +37,30 @@ switch ($_GET['op']) {
         break;
 
     case 'autocomplete';
+        $complete = isset($_POST['complete']) ? trim($_POST['complete']) : '';
+        if ($complete === '') {
+            echo json_encode([]);
+            break;
+        }
         try{
             $dao = new DAO_search();
             if (!empty($_POST['brand']) && empty($_POST['category'])){
-                $rdo = $dao->select_only_brand($_POST['complete'], $_POST['brand']);
+                $rdo = $dao->select_only_brand($complete, $_POST['brand']);
             }else if(!empty($_POST['brand']) && !empty($_POST['category'])){
-                $rdo = $dao->select_brand_category($_POST['complete'], $_POST['brand'], $_POST['category']);
+                $rdo = $dao->select_brand_category($complete, $_POST['brand'], $_POST['category']);
             }else if(empty($_POST['brand']) && !empty($_POST['category'])){
-                $rdo = $dao->select_only_category($_POST['category'], $_POST['complete']);
+                $rdo = $dao->select_only_category($_POST['category'], $complete);
             }else {
-                $rdo = $dao->select_city($_POST['complete']);
+                $rdo = $dao->select_city($complete);
             }
         }catch (Exception $e){
-            echo json_encode("catch");
-            exit;
+            echo json_encode([]);
+            break;
         }
-        if(!$rdo){
-            echo json_encode("rdo!!!");
-            exit;
-        }else{
-            $dinfo = array();
-            foreach ($rdo as $row) {
-                array_push($dinfo, $row);
-            }
-            echo json_encode($dinfo);
+        if (!isset($rdo) || !is_array($rdo)) {
+            echo json_encode([]);
+            break;
         }
+        echo json_encode($rdo);
         break; 
 }

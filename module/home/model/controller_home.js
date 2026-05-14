@@ -1,3 +1,30 @@
+/**
+ * Hero carousel (slide 0…n): filtros aplicados al abrir el shop.
+ * null = todas las carreras. Los nombres deben coincidir con `circuit_name` en BD (mismos que en filtros del shop).
+ */
+var HERO_SHOP_FILTERS_BY_SLIDE = [
+    null,
+    [['circuit_name', 'UTMB World Series']],
+    [['circuit_name', 'Golden Trail Series']],
+    [['circuit_name', 'Majors']],
+    [['circuit_name', 'ITRA Ultra Tour']]
+];
+
+function goShopFromHeroCarousel() {
+    var idx = typeof window.heroSlideIndex === 'number' ? window.heroSlideIndex : 0;
+    idx = Math.max(0, Math.min(idx, HERO_SHOP_FILTERS_BY_SLIDE.length - 1));
+    var def = HERO_SHOP_FILTERS_BY_SLIDE[idx];
+    localStorage.removeItem('filter_from_home');
+    localStorage.removeItem('order');
+    localStorage.removeItem('open_first_result');
+    if (def && def.length) {
+        localStorage.setItem('filter', JSON.stringify(def));
+    } else {
+        localStorage.removeItem('filter');
+    }
+    window.location.href = 'index.php?page=controller_shop&op=view';
+}
+
 function loadRunning() {
 
     ajaxPromise('GET', 'JSON', 'module/home/controller/controller_home.php?op=homePageRunning')
@@ -210,7 +237,21 @@ function loadRunners() {
 }
 
 function homeClicks() {
- 
+
+    $(document).on('click', '#heroShopLink', function (e) {
+        if ($(e.target).closest('.hero-btns').find('button, a').length) {
+            return;
+        }
+        goShopFromHeroCarousel();
+    });
+
+    $(document).on('keydown', '#heroShopLink', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            goShopFromHeroCarousel();
+        }
+    });
+
     // ── RUNNING
     $(document).on("click", '.btn-running', function () {
         var id_running = $(this).data('running');

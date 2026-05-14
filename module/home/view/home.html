@@ -3,13 +3,21 @@
 .hero-carousel-wrapper{position:relative;width:100%;height:85vh;min-height:560px;overflow:hidden;}
 .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.4s ease-in-out;}
 .hero-slide.active{opacity:1;}
+/* --- CAROUSEL ORIGINAL (montañas Unsplash) --- backup por si se quiere restaurar ---
 .slide-1{background-image:url('https://images.unsplash.com/photo-1547093349-65cdba98369a?q=80&w=1170&auto=format&fit=crop');}
 .slide-2{background-image:url('https://images.unsplash.com/photo-1544198365-f5d60b6d8190?q=80&w=1170&auto=format&fit=crop');}
 .slide-3{background-image:url('https://images.unsplash.com/photo-1551623063-732e813836da?q=80&w=1228&auto=format&fit=crop');}
 .slide-4{background-image:url('https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?q=80&w=1169&auto=format&fit=crop');}
 .slide-5{background-image:url('https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1170&auto=format&fit=crop');}
+--- fin backup --- */
+/* --- CAROUSEL NUEVO (UTMB Mont-Blanc high resolution) --- */
+.slide-1{background-image:url('https://res.cloudinary.com/kavval/image/upload/c_limit,f_auto,w_1600,q_auto/events/europe/france/auvergne-rhone-alpes/haute-savoie/utmb/medias/UTMB_1_wvxw1v');}
+.slide-2{background-image:url('https://res.cloudinary.com/utmb-world/image/upload/q_auto/f_auto/c_fill,g_auto/if_w_gt_1920/c_scale,w_1920/if_end/v1724935430/montblanc/Races/OCC/utmb24_occ_ts_00_0112_31c4f7f393.jpg');}
+.slide-3{background-image:url('https://res.cloudinary.com/utmb-world/image/upload/q_auto/f_auto/c_fill,g_auto/if_w_gt_1920/c_scale,w_1920/if_end/v1/montblanc/Races/2025/TDS/utmb25_tds_gf_00_0350_525200e6d6');}
+.slide-4{background-image:url('https://res.cloudinary.com/kavval/image/upload/c_lfill,f_auto,w_1600,h_550,g_auto,q_auto:low/events/europe/france/auvergne-rhone-alpes/haute-savoie/utmb/Kavval_UTMB');}
+.slide-5{background-image:url('https://res.cloudinary.com/utmb-world/image/upload/q_auto/f_auto/c_fill,g_auto/if_w_gt_1920/c_scale,w_1920/if_end/v1/montblanc/Races/2025/CCC/utmb25_ccc_fo_00_1159_3976705061');}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,5,0.75) 0%,rgba(10,8,5,0.25) 50%,rgba(10,8,5,0.4) 100%);z-index:1;}
-.hero-body{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 1.5rem 2rem;}
+.hero-body{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 1.5rem 2rem;cursor:pointer;}
 .hero-badge{display:inline-block;background:#E87722;color:#fff;font-weight:900;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;font-style:italic;padding:5px 18px;border-radius:4px;margin-bottom:1.5rem;}
 .hero-title{font-size:clamp(56px,9vw,110px);font-weight:900;font-style:italic;text-transform:uppercase;line-height:0.9;letter-spacing:-0.02em;color:#f1f5f9;margin-bottom:1.5rem;}
 .hero-title span{color:#E87722;}
@@ -35,7 +43,7 @@
   <div class="hero-slide slide-4"></div>
   <div class="hero-slide slide-5"></div>
   <div class="hero-overlay"></div>
-  <div class="hero-body">
+  <div class="hero-body" id="heroShopLink" role="link" tabindex="0" aria-label="View races in shop" title="View races in shop">
     <span class="hero-badge">World Series 2026</span>
     <h2 class="hero-title">Push your limits <br/><span>in the wild</span></h2>
     <div class="hero-btns">
@@ -62,11 +70,22 @@
   const progress=document.getElementById('heroProgress');
   const DURATION=5000;
   let current=0,timer;
-  function heroGoTo(idx){slides[current].classList.remove('active');dots[current].classList.remove('active');current=idx;slides[current].classList.add('active');dots[current].classList.add('active');resetProgress();}
+  function heroGoTo(idx){
+    var n=slides.length;
+    if(!n)return;
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current=((idx%n)+n)%n;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    window.heroSlideIndex=current;
+    resetProgress();
+  }
   function heroNext(){heroGoTo((current+1)%slides.length);}
   function heroPrev(){heroGoTo((current-1+slides.length)%slides.length);}
   function resetProgress(){clearTimeout(timer);progress.style.transition='none';progress.style.width='0%';setTimeout(function(){progress.style.transition='width '+DURATION+'ms linear';progress.style.width='100%';},30);timer=setTimeout(heroNext,DURATION);}
   window.heroGoTo=heroGoTo;window.heroNext=heroNext;window.heroPrev=heroPrev;
+  window.heroSlideIndex=0;
   resetProgress();
 })();
 </script>

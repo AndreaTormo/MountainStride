@@ -107,7 +107,6 @@ function autocomplete() {
 
             ajaxPromise('POST', 'JSON', 'module/search/controller/controller_search.php?op=autocomplete', sdata)
                 .then(function (data) {
-                    // Ignore outdated responses if user kept typing.
                     if (currentRequest !== requestCounter) return;
 
                     $('#search_auto').empty();
@@ -118,9 +117,9 @@ function autocomplete() {
 
                     let added = 0;
                     data.forEach(function (row) {
-                        const location = row && row.location ? String(row.location).trim() : '';
-                        if (!location) return;
-                        $('<div></div>').appendTo('#search_auto').html(location).attr({ 'class': 'searchElement', 'id': location });
+                        const running_name = row && row.running_name ? String(row.running_name).trim() : '';
+                        if (!running_name) return;
+                        $('<div></div>').appendTo('#search_auto').text(running_name).attr({ 'class': 'searchElement', 'id': running_name });
                         added++;
                     });
 
@@ -152,7 +151,7 @@ function button_search() {
         }
 
         if (locationVal !== '') {
-            search.push(['location', locationVal]);
+            search.push(['running_name', locationVal]);
         }
 
         localStorage.removeItem('filter');

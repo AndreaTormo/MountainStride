@@ -13,7 +13,6 @@
     <a class="hover:text-primary transition-colors" href="index.php?page=controller_home&op=view">
         Mountain<span class="text-primary">Stride</span>
     </a>
-</h1>
       </h1>
       <span class="text-[10px] font-bold text-primary/60 tracking-[0.3em] uppercase">World Series</span>
     </div>
@@ -21,21 +20,21 @@
 
   <!-- Nav -->
   <nav class="hidden lg:flex items-center gap-8">
-    
-       <a class="text-xs font-bold hover:text-primary transition-colors uppercase tracking-widest text-primary"
-       href="index.php?page=controller_shop&op=view">Shop</a>
+    <a class="header-nav-shop" href="index.php?page=controller_shop&op=view">Shop</a>
   </nav>
 
 </div>
 <div class="flex items-center gap-6">
 
   <!-- search -->
-  <div class="div_search">
-    <select class="search_brand"></select>
-    <select class="search_category"></select>
-    <input type="text" id="autocom" autocomplete="off" placeholder="City" />
-    <div id="search_auto"></div>
-    <input type="button" value="Search" id="search-btn" class="btna third" />
+  <div class="div_search" role="search" aria-label="Search races">
+    <select class="search_brand" aria-label="Circuits"></select>
+    <select class="search_category" aria-label="Category"></select>
+    <div class="header-search-input-wrap">
+      <input type="text" id="autocom" autocomplete="off" placeholder="Event name…" />
+      <div id="search_auto"></div>
+    </div>
+    <button type="button" id="search-btn" class="header-search-submit">Search</button>
   </div>
 
   <div class="flex items-center gap-3">

@@ -5,17 +5,27 @@ include($path . "/model/connect.php");
  
 class DAOShop {
  
-    function select_all_runnings($limit = null, $offset = null) {
-        $sql = "SELECT r.*, l.land_name, c.circuit_name
+    function select_all_runnings($limit = null, $offset = null, $orderBy = null) {
+        $base = "SELECT r.*, l.land_name, c.circuit_name
                 FROM running r
                 LEFT JOIN land l ON r.id_land = l.id_land
-                LEFT JOIN circuits c ON r.id_circuit = c.id_circuit
-                ORDER BY r.id_running DESC";
+                LEFT JOIN circuits c ON r.id_circuit = c.id_circuit";
+
+        $orderBy = $orderBy === null ? '' : trim((string)$orderBy);
+        if ($orderBy === '' || $orderBy === '0') {
+            $sql = $base . " ORDER BY r.id_running DESC";
+        } else {
+            $allowed = ['running_name', 'price', 'race_date', 'race_km', 'location', 'status'];
+            if (!in_array($orderBy, $allowed, true)) {
+                $orderBy = 'race_date';
+            }
+            $sql = $base . " ORDER BY r.`{$orderBy}` ASC";
+        }
 
         if ($limit !== null && $offset !== null) {
             $sql .= " LIMIT :limit OFFSET :offset";
         }
- 
+
         $conexion = connect::con();
         $stmt = $conexion->prepare($sql);
         if ($limit !== null && $offset !== null) {

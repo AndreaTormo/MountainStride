@@ -2,6 +2,7 @@ const SHOP_LIMIT = 8;
 let SHOP_OFFSET = 0;
 let SHOP_LAST_URL = "module/shop/controller/controller_shop.php?op=all_running";
 let SHOP_LAST_FILTER = null;
+let SHOP_LAST_ORDER = null;
 
 function loadShop() {
     SHOP_OFFSET = 0;
@@ -12,6 +13,7 @@ function loadShop() {
             loadDetails(filtroHome);                      
             SHOP_LAST_URL = "module/shop/controller/controller_shop.php?op=all_running";
             SHOP_LAST_FILTER = null;
+            SHOP_LAST_ORDER = null;
             ajaxForSearch(SHOP_LAST_URL); 
             return;
         }
@@ -23,10 +25,14 @@ function loadShop() {
             // console.log("filtro:", filtro);
             SHOP_LAST_URL = "module/shop/controller/controller_shop.php?op=filter";
             SHOP_LAST_FILTER = filtro;
+            SHOP_LAST_ORDER = null;
             ajaxForSearch(SHOP_LAST_URL, SHOP_LAST_FILTER);
+        } else if (localStorage.getItem('order')) {
+            load_orderby();
         } else {
             SHOP_LAST_URL = "module/shop/controller/controller_shop.php?op=all_running";
             SHOP_LAST_FILTER = null;
+            SHOP_LAST_ORDER = null;
             ajaxForSearch(SHOP_LAST_URL);
         }
 }
@@ -39,6 +45,9 @@ function ajaxForSearch(url, filter) {
         offset: SHOP_OFFSET
     };
     if (filter) payload.filter = filter;
+    if (SHOP_LAST_ORDER !== null && SHOP_LAST_ORDER !== undefined) {
+        payload.order = SHOP_LAST_ORDER;
+    }
 
     ajaxPromise("POST", "JSON", url, payload)
         .then(function (shop) {
@@ -138,7 +147,7 @@ function loadDetails(id_running) {
                 $('#details-shop').fadeIn(200)
                 $('#shop-pagination').hide(); 
                 window.scrollTo(0, 0);
-                mapLeaflet_one(data); 
+                mapLeaflet_one(data[0]); 
                 
             });
 
@@ -312,18 +321,18 @@ function print_filters() {
             </div>
             </div>
 
+            <!-- ORDER BY -->
+            <div class="filter-group">
+            <p class="filter-group-label">Sort by</p>
+            <select id="orderby" name="orderby" class="shop-orderby-select">
+                <option value="race_date">Race date</option>
+                <option value="price">Price</option>
+            </select>
+            <button type="button" class="order-btn boton_filter">Apply sort</button>
+            </div>
+
             <button class="boton_filter" id="btn_apply_filter">Search</button>
             <button class="filter_remove" id="btn_remove_filter">Remove</button>
-
-            '<div class="orderby_content">' +
-            '<p>ORDER BY:</p>' +
-            '<select id="orderby">' +
-            '<option value = "0">Order by...</option>' +
-            '<option value = "price">Price</option>' +
-            '<option value = "km">KM</option>' +
-            '</select>' +
-            '<input type="button" value="ORDER" id="order-btn" class="order-btn"/>' +
-            '</div>'
         `);
 
     filter_button();
@@ -363,6 +372,16 @@ function filter_button() {
             $('#filter_price_max').val(savedPriceMax);
             $('#price_max_display').text(`${savedPriceMax} €`);
         }
+
+        try {
+            var ordRaw = localStorage.getItem('order');
+            if (ordRaw) {
+                var ord = JSON.parse(ordRaw);
+                if (ord && ord[0] && ord[0].order !== undefined) {
+                    $('#orderby').val(String(ord[0].order));
+                }
+            }
+        } catch (e) { /* ignore */ }
 
         // Actualitzar slider
         $(document).on('input', '#filter_price_max', function () {
@@ -419,6 +438,7 @@ function filter_button() {
             filter.push(['price_max', priceMax]);  
             }
 
+            localStorage.removeItem('order');
             localStorage.setItem('filter', JSON.stringify(filter));
             window.location.reload();
             });
@@ -426,6 +446,7 @@ function filter_button() {
             // Botó REMOVE
             $(document).on('click', '#btn_remove_filter', function () {
                 localStorage.removeItem('filter');
+                localStorage.removeItem('order');
                 localStorage.removeItem('filter_status');
                 localStorage.removeItem('filter_runner');
                 localStorage.removeItem('filter_distance');
@@ -465,7 +486,7 @@ function backToList() {
 function mapLeaflet_all(data) {
     if (typeof L === 'undefined') return;
  
-    // FIX: destruir el mapa anterior antes de crear uno nuevo
+    // lleva el mapa d'abans i crea uno nou
     if (window._mapAll) {
         window._mapAll.remove();
         window._mapAll = null;
@@ -481,7 +502,6 @@ function mapLeaflet_all(data) {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/">CARTO</a>',
         subdomains: 'abcd',
         maxZoom: 19,
-        // Allow horizontal world wrap so tiles always fill wide containers
         noWrap: false
     }).addTo(map);
 
@@ -584,7 +604,7 @@ function runnings_related(loadeds = 0, type_running, total_items) {
     let type = type_running;
     let total_item = total_items;
 
-    ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=runnings_related", 'POST', 'JSON', { 'type': type, 'loaded': loaded, 'items': items })
+    ajaxPromise("module/shop/controller/controller_shop.php?op=runnings_related", 'POST', 'JSON', { 'type': type, 'loaded': loaded, 'items': items })
         .then(function(data) {
             if (loaded == 0) {
                 $('<div></div>').attr({ 'id': 'title_content', class: 'title_content' }).appendTo('.results')
@@ -665,25 +685,19 @@ function more_running_related(type_running){
         });
 }
 
-//SCROLL
 function save_orderby() {
     $(document).on('click', '.order-btn', function() {
         var orderby = [];
 
-        if ($('#orderby').val() == 0) {
+         if ($('#orderby').val() == 0) {
             orderby.push({ "order": '0' });
         } else {
             orderby.push({ "order": $('#orderby').val() });
         }
 
-        localStorage.removeItem('filters');
-        localStorage.removeItem('brand_filter');
-        localStorage.removeItem('category_filter');
-        localStorage.removeItem('type_motor_filter');
-        localStorage.removeItem('search');
-
+        localStorage.removeItem('filter');
         localStorage.setItem('order', JSON.stringify(orderby));
-        window.location.href = ' index.php?module=ctrl_shop&op=list ';
+        window.location.href = 'index.php?page=controller_shop&op=view';
     });
 }
 

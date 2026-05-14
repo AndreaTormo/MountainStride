@@ -14,8 +14,9 @@ switch ($_GET['op']) {
         try {
             $limit  = isset($_POST['limit']) ? (int)$_POST['limit'] : 8;
             $offset = isset($_POST['offset']) ? (int)$_POST['offset'] : 0;
+            $order  = isset($_POST['order']) ? (string)$_POST['order'] : '';
             $daoshop       = new DAOShop();
-            $Dates_Running = $daoshop->select_all_runnings($limit, $offset);
+            $Dates_Running = $daoshop->select_all_runnings($limit, $offset, $order);
             $Total_Running = $daoshop->select_count_all_events();
         } catch (Exception $e) {
             echo json_encode("error"); exit;
@@ -246,28 +247,6 @@ switch ($_GET['op']) {
     //     include("module/exceptions/views/pages/error404.php");
     //     break;
 
-     case 'order_filter':
-        $opc_order = $_GET['order'];
-        $total_prod = $_POST['total_prod'];
-        $items_page = $_POST['items_page'];
-
-        try {
-            $daoshop = new DAOShop();
-            if ($opc_order == "0") {
-                $Dates_Running = $daoshop->select_all_runnings(0, 20);
-            } else {
-                $Dates_Running = $daoshop->select_all_runnings_order($opc_order, $total_prod, $items_page);
-            }
-        } catch (Exception $e) {
-            echo json_encode("error");
-        }
-
-        if (!empty($Dates_Running)) {
-            echo json_encode($Dates_Running);
-        } else {
-            echo json_encode("error");
-        }
-        break;   
 }
 
 ?>

@@ -200,33 +200,26 @@ switch ($_GET['op']) {
         break; 
         
     case 'count_running_related':
-        $type_car = $_POST['running_event'];
+        $type_running = $_POST['type'];
+        $id_running = isset($_POST['id_running']) ? $_POST['id_running'] : '';
         try {
             $dao = new DAOShop();
-            $rdo = $dao->count_more_running_related($running_event);
+            $n_prod = $dao->count_more_runnings_related($type_running, $id_running);
         } catch (Exception $e) {
             echo json_encode("error");
             exit;
         }
-        if (!$rdo) {
-            echo json_encode("error");
-            exit;
-        } else {
-            $dinfo = array();
-            foreach ($rdo as $row) {
-                array_push($dinfo, $row);
-            }
-            echo json_encode($dinfo);
-        }
+        echo json_encode([['n_prod' => $n_prod]]);
         break;
 
     case 'runnings_related':
         $type_running = $_POST['type'];
         $loaded = $_POST['loaded'];
         $items = $_POST['items'];
+        $id_running = isset($_POST['id_running']) ? $_POST['id_running'] : '';
         try {
             $dao = new DAOShop();
-            $rdo = $dao->select_runnings_related($type_running, $loaded, $items);
+            $rdo = $dao->select_runnings_related($type_running, $loaded, $items, $id_running);
         } catch (Exception $e) {
             echo json_encode("error");
             exit;
@@ -247,6 +240,15 @@ switch ($_GET['op']) {
     //     include("module/exceptions/views/pages/error404.php");
     //     break;
 
+    case 'update_most_visited':
+        try {
+            $daoshop = new DAOShop();
+            $daoshop->update_visits_event($_GET['id']);
+            echo json_encode("ok");
+        } catch (Exception $e) {
+            echo json_encode("error");
+        }
+    break;
 }
 
 ?>

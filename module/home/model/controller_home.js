@@ -236,6 +236,42 @@ function loadRunners() {
     });
 }
 
+function loadMostVisited() { 
+    ajaxPromise('module/home/controller/controller_home.php?op=homePageMostVisited', 'GET', 'JSON')
+    .then(function(data) {
+        $('#containerMostVisited').empty();
+        for (let row = 0; row < data.length; row++) {
+            const p = data[row];
+            const f = p.race_date.split('-');
+            const mes = MESES[parseInt(f[1]) - 1];
+
+            $('<div></div>').attr({ 'id': r.id_running, 'class': 'running-card' }).appendTo('#containerMostVisited')
+                .html(`
+                    <img class="running-card-img" src="${r.runner_image}" alt="${r.running_name}"/>
+                    <div class="running-card-body">
+                        <p class="running-name">${r.running_name}</p>
+                        <div class="running-meta">
+                            <span class="running-meta-item">
+                                <span class="material-symbols-outlined">circuit</span>
+                                ${c.circuit_name}
+                            </span>
+                            <span class="running-meta-item">
+                                <span class="material-symbols-outlined">calendar_month</span>
+                                ${f[2]} ${mes} ${f[0]}
+                            </span>
+                        </div>
+                        <div class="running-card-footer">
+                            <span class="running-price-badge">${r.price}€</span>
+                            <button class="btn-tickets" id="${r.id_running}">View tickets</button>
+                        </div>
+                    </div>
+                `);
+        }
+    }).catch(function(err) {
+    console.log('error loadMostVisited', err);
+    });
+}
+
 function homeClicks() {
 
     $(document).on('click', '#heroShopLink', function (e) {
@@ -305,7 +341,6 @@ function homeClicks() {
         window.location.href = 'index.php?page=controller_shop&op=view';
     });
 }
-    
 
 /* ─── INIT ──────────────────────────────────────────────── */
 $(document).ready(function () {
@@ -314,5 +349,6 @@ $(document).ready(function () {
     loadDistance();
     loadLand();
     loadRunners();
+    loadMostVisited();
     homeClicks();
 });

@@ -340,30 +340,43 @@ class DAOShop {
         return (int)($row['total'] ?? 0);
     }
 
-    function count_more_runnings_related($status) {
+    function count_more_runnings_related($status, $id_running = '') {
         $sql = "SELECT COUNT(*) AS n_prod
                 FROM running r
                 WHERE r.status = :status";
+        if ($id_running != '') {
+            $sql .= " AND r.id_running <> :id_running";
+        }
 
         $conexion = connect::con();
         $stmt = $conexion->prepare($sql);
-        $stmt->execute([':status' => $status]);
+        $stmt->bindValue(':status', $status, PDO::PARAM_STR);
+        if ($id_running != '') {
+            $stmt->bindValue(':id_running', $id_running, PDO::PARAM_STR);
+        }
+        $stmt->execute();
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
         connect::close($conexion);
         return $res ? (int)$res['n_prod'] : 0;
     }
 
-    function select_runnings_related($status, $loaded, $items) {
+    function select_runnings_related($status, $loaded, $items, $id_running = '') {
         $sql = "SELECT r.*, l.land_name, c.circuit_name
                 FROM running r
                 LEFT JOIN land l ON r.id_land = l.id_land
                 LEFT JOIN circuits c ON r.id_circuit = c.id_circuit
-                WHERE r.status = :status
-                LIMIT :loaded, :items";
+                WHERE r.status = :status";
+        if ($id_running != '') {
+            $sql .= " AND r.id_running <> :id_running";
+        }
+        $sql .= " LIMIT :loaded, :items";
 
         $conexion = connect::con();
         $stmt = $conexion->prepare($sql);
         $stmt->bindValue(':status', $status, PDO::PARAM_STR);
+        if ($id_running != '') {
+            $stmt->bindValue(':id_running', $id_running, PDO::PARAM_STR);
+        }
         $stmt->bindValue(':loaded', (int)$loaded, PDO::PARAM_INT);
         $stmt->bindValue(':items',  (int)$items,  PDO::PARAM_INT);
         $stmt->execute();
@@ -372,26 +385,14 @@ class DAOShop {
         return $retrArray;
     }
 
-    function count_all_running_order($order) {
-        $sql = "SELECT COUNT(*) AS n_prod
-		FROM running r, land l, circuits c
-		WHERE r.id_land = l.id_land
-		  AND r.id_circuit = c.id_circuit
-		ORDER BY r.$order ASC";
+    function update_visits_event($id) {
+        $sql = "UPDATE running SET visit_count = visit_count + 1 WHERE id_running = :id";
 
         $conexion = connect::con();
         $stmt = $conexion->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
         connect::close($conexion);
-
-        $retrArray = array();
-        if (!empty($res)) {
-            foreach ($res as $row) {
-                $retrArray[] = $row;
-            }
-        }
-        return $retrArray;
     }
 }
 ?>

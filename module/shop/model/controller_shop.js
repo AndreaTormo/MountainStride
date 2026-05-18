@@ -28,7 +28,11 @@ function loadShop() {
             SHOP_LAST_ORDER = null;
             ajaxForSearch(SHOP_LAST_URL, SHOP_LAST_FILTER);
         } else if (localStorage.getItem('order')) {
-            load_orderby();
+            var all_orderby = JSON.parse(localStorage.getItem('order'));
+            SHOP_LAST_ORDER = all_orderby[0].order;
+            SHOP_LAST_URL = "module/shop/controller/controller_shop.php?op=all_running";
+            SHOP_LAST_FILTER = null;
+            ajaxForSearch(SHOP_LAST_URL);
         } else {
             SHOP_LAST_URL = "module/shop/controller/controller_shop.php?op=all_running";
             SHOP_LAST_FILTER = null;
@@ -244,6 +248,11 @@ function loadDetails(id_running) {
                 <button class='flex-[2] py-4 bg-primary text-background-dark font-bold rounded-lg hover:bg-primary/90 transition-all uppercase text-sm'>Register Now</button>
             </div>
         `;
+        window._id_running_similar = id_running;
+        $('.results').empty();
+        more_running_related(d.status);
+        }).catch(function() {
+            console.log('error loadDetails');
         });
 }
 
@@ -604,7 +613,7 @@ function runnings_related(loadeds = 0, type_running, total_items) {
     let type = type_running;
     let total_item = total_items;
 
-    ajaxPromise("module/shop/controller/controller_shop.php?op=runnings_related", 'POST', 'JSON', { 'type': type, 'loaded': loaded, 'items': items })
+    ajaxPromise("POST", "JSON", "module/shop/controller/controller_shop.php?op=runnings_related", { 'type': type, 'loaded': loaded, 'items': items, 'id_running': window._id_running_similar || '' })
         .then(function(data) {
             if (loaded == 0) {
                 $('<div></div>').attr({ 'id': 'title_content', class: 'title_content' }).appendTo('.results')
@@ -671,14 +680,14 @@ function runnings_related(loadeds = 0, type_running, total_items) {
 function more_running_related(type_running){
     var type_running = type_running;
     var items = 0;
-    ajaxPromise('module/shop/controller/controller_shop.php?op=count_running_related', 'POST', 'JSON', { 'running_event': running_event })
+    ajaxPromise('POST', 'JSON', 'module/shop/controller/controller_shop.php?op=count_running_related', { 'type': type_running, 'id_running': window._id_running_similar || '' })
         .then(function(data) {
             var total_items = data[0].n_prod;
-            cars_related(0, type_running, total_items);
+            runnings_related(0, type_running, total_items);
             $(document).on("click", '.load_more_button', function() {
                 items = items + 3;
                 $('.more_running__button').empty();
-                cars_related(items, type_running, total_items);
+                runnings_related(items, type_running, total_items);
             });
         }).catch(function() {
             console.log('error total_items');
@@ -689,7 +698,7 @@ function save_orderby() {
     $(document).on('click', '.order-btn', function() {
         var orderby = [];
 
-         if ($('#orderby').val() == 0) {
+        if ($('#orderby').val() == 0) {
             orderby.push({ "order": '0' });
         } else {
             orderby.push({ "order": $('#orderby').val() });
@@ -697,15 +706,16 @@ function save_orderby() {
 
         localStorage.removeItem('filter');
         localStorage.setItem('order', JSON.stringify(orderby));
-        window.location.href = 'index.php?page=controller_shop&op=view';
+        SHOP_OFFSET = 0;
+        SHOP_LAST_ORDER = orderby[0].order;
+        SHOP_LAST_URL = "module/shop/controller/controller_shop.php?op=all_running";
+        SHOP_LAST_FILTER = null;
+        ajaxForSearch(SHOP_LAST_URL);
     });
 }
 
-function load_orderby(total_prod = 0, items_page = 4) {
-    var all_orderby = JSON.parse(localStorage.getItem('order'));
-    var one_orderby = all_orderby[0].order;
-
-    ajaxForSearch('module/shop/controller/controller_shop.php?op=order_filter&order=' + one_orderby, total_prod, items_page);
+function updateMostVisited(id){
+     ajaxPromise('module/shop/controller/controller_shop.php?op=update_most_visited&id=' + id, 'GET', 'JSON')
 }
 
 // ─── INIT ──────────────────

@@ -417,6 +417,50 @@
     background: var(--c-primary, #E87722);
     color: #0a0805;
   }
+  /* Most Visited: contador de visitas */
+  #containerMostVisited > .running-card .running-visit-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(10, 8, 5, 0.82);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(232, 119, 34, 0.45);
+    border-radius: 999px;
+    padding: 6px 12px 6px 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: #f1f5f9;
+    letter-spacing: 0.04em;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  }
+  #containerMostVisited > .running-card .running-visit-badge .material-symbols-outlined {
+    font-size: 18px;
+    color: var(--c-primary, #E87722);
+    font-variation-settings: 'FILL' 1;
+  }
+  #containerMostVisited > .running-card .running-visit-count {
+    font-weight: 900;
+    font-size: 15px;
+    color: var(--c-primary, #E87722);
+    line-height: 1;
+  }
+  #containerMostVisited > .running-card .running-visit-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: rgba(203, 213, 225, 0.75);
+  }
+  #containerMostVisited > .running-card .running-price-badge {
+    top: 12px;
+    right: 12px;
+    left: auto;
+  }
   @media (max-width: 800px) {
     .cat-slide,
     .events-track > .running-card { flex: 0 0 calc((100% - 20px)/2); }

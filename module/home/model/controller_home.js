@@ -236,6 +236,15 @@ function loadRunners() {
     });
 }
 
+function formatVisitCount(count) {
+    var n = parseInt(count, 10);
+    if (isNaN(n) || n < 0) {
+        n = 0;
+    }
+    var label = n === 1 ? 'visit' : 'visits';
+    return { n: n, label: label };
+}
+
 function formatMostVisitedDate(raceDate) {
     var MESES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     if (!raceDate) {
@@ -266,11 +275,17 @@ function loadMostVisited() {
             }
             const img = r.running_image || r.circuit_image || '';
             const dateLabel = formatMostVisitedDate(r.race_date);
+            const visits = formatVisitCount(r.visit_count);
 
             $('<div></div>')
                 .attr({ id: r.id_running, class: 'running-card' })
                 .appendTo('#containerMostVisited')
                 .html(`
+                    <div class="running-visit-badge" title="${visits.n} ${visits.label}">
+                        <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+                        <span class="running-visit-count">${visits.n}</span>
+                        <span class="running-visit-label">${visits.label}</span>
+                    </div>
                     <img class="running-card-img" src="${img}" alt="${r.running_name || ''}" onerror="this.style.display='none'"/>
                     <div class="running-card-body">
                         <p class="running-name">${r.running_name || ''}</p>

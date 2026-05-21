@@ -208,31 +208,223 @@
   </div>
 </section>
  
-<!-- ===== CHOOSE YOUR CHALLENGE ===== -->
+<!-- ===== CAROUSELS (mismo card que Featured Events; Elite Runners excluido) ===== -->
 <style>
-  .cat-outer { overflow: hidden; }
-  .cat-track { display: flex; gap: 18px; transition: transform .55s cubic-bezier(.77,0,.18,1); }
-  .cat-slide { flex: 0 0 calc((100% - 36px)/3); min-width: 200px; }
-  .user_card { background: var(--c-card, #181510); border: 1px solid var(--c-border, rgba(232,119,34,0.18)); border-radius: 14px; overflow: hidden; cursor: pointer; transition: transform .3s, border-color .3s, box-shadow .3s; }
-  .user_card:hover { transform: translateY(-5px); border-color: var(--c-primary, #E87722); box-shadow: 0 14px 40px rgba(232,119,34,.15); }
-  .cat-img-wrap { position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #1a1610; }
-  .cat-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .55s ease; }
-  .user_card:hover .cat-img { transform: scale(1.07); }
-  .cat-badge { position: absolute; top: 9px; right: 9px; font-size: 14px; background: rgba(10,8,5,.72); border: 1px solid var(--c-border, rgba(232,119,34,0.18)); border-radius: 7px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; z-index: 2; }
-  .cat-fallback { display: none; width: 100%; height: 100%; background: linear-gradient(135deg,#1e1a14,var(--c-card,#181510)); align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 50px; font-style: italic; color: var(--c-primary, #E87722); }
-  .cat-body { padding: .9rem 1rem 1rem; }
-  .cat-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-style: italic; font-size: clamp(16px,2vw,20px); text-transform: uppercase; color: var(--c-text, #f1f5f9); line-height: 1.1; margin-bottom: .65rem; }
-  .cat-footer { display: flex; justify-content: flex-end; }
-  .btn-ticket { background: transparent; color: var(--c-primary, #E87722); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; padding: 6px 14px; border: 1.5px solid var(--c-primary, #E87722); border-radius: 6px; cursor: pointer; transition: all .2s; }
-  .btn-ticket:hover { background: var(--c-primary, #E87722); color: #fff; }
-  .nav-btn-row { display: flex; gap: 8px; align-items: center; }
-  .nav-btn-sm { width: 36px; height: 36px; border-radius: 50%; background: rgba(232,119,34,.1); border: 1px solid rgba(232,119,34,.25); color: var(--c-primary, #E87722); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; transition: all .2s; flex-shrink: 0; }
-  .nav-btn-sm:hover { background: var(--c-primary, #E87722); color: #fff; }
-  .cat-dots { display: flex; justify-content: center; gap: 6px; margin-top: 1rem; }
-  .cat-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.2); border: none; cursor: pointer; transition: all .3s; padding: 0; }
-  .cat-dot.active { background: var(--c-primary, #E87722); transform: scale(1.35); width: 20px; border-radius: 4px; }
-  @media (max-width: 800px) { .cat-slide { flex: 0 0 calc((100% - 18px)/2); } }
-  @media (max-width: 500px) { .cat-slide { flex: 0 0 80vw; } }
+  .cat-slide,
+  .events-track > .running-card { flex: 0 0 calc((100% - 40px)/3); min-width: 0; }
+  .cat-slide .user_card,
+  .events-track > .running-card {
+    position: relative;
+    height: 340px;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    border: none;
+    background: #1a1208;
+    box-shadow: 0 4px 24px rgba(0,0,0,.45);
+    transition: transform .3s, box-shadow .3s;
+  }
+  .cat-slide .user_card:hover,
+  .events-track > .running-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 36px rgba(232,119,34,.18), 0 4px 18px rgba(0,0,0,.6);
+  }
+  .cat-slide .user_card::after,
+  .events-track > .running-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,8,5,.92) 0%, rgba(10,8,5,.25) 55%, transparent 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .cat-slide .cat-img-wrap {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: unset;
+    overflow: hidden;
+    background: #1a1208;
+  }
+  .cat-slide .cat-img,
+  .events-track > .running-card .running-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .55s ease;
+  }
+  .cat-slide .user_card:hover .cat-img,
+  .events-track > .running-card:hover .running-card-img { transform: scale(1.06); }
+  .cat-slide .cat-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 3;
+    width: auto;
+    height: auto;
+    min-width: 36px;
+    font-size: 16px;
+    background: rgba(10,8,5,.75);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(232,119,34,.3);
+    border-radius: 8px;
+    padding: 6px 10px;
+  }
+  .cat-slide .cat-fallback {
+    display: none;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg,#1e1a14,#181510);
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 50px;
+    font-style: italic;
+    color: var(--c-primary, #E87722);
+    z-index: 0;
+  }
+  .cat-slide .cat-body,
+  .events-track > .running-card .running-card-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.2rem;
+    z-index: 2;
+    background: transparent;
+  }
+  .cat-slide .cat-name,
+  .events-track > .running-card .running-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-style: italic;
+    font-size: clamp(18px,2.5vw,22px);
+    text-transform: uppercase;
+    color: #f1f5f9;
+    line-height: 1.1;
+    margin-bottom: .4rem;
+  }
+  .events-track > .running-card .running-meta {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+    margin-bottom: .7rem;
+  }
+  .events-track > .running-card .running-meta-item {
+    font-size: .8rem;
+    color: var(--c-primary, #E87722);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .events-track > .running-card .running-meta-item .material-symbols-outlined { font-size: 14px; }
+  .events-track > .running-card .running-card-body { display: flex; flex-direction: column; }
+  .events-track > .running-card .running-meta { order: -1; margin-bottom: 0; }
+  .events-track > .running-card .running-meta-item:nth-child(2) {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--c-primary, #E87722);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 4px;
+    width: fit-content;
+    margin-bottom: .5rem;
+    order: -1;
+  }
+  .events-track > .running-card .running-meta-item:nth-child(2) .material-symbols-outlined { font-size: 12px; }
+  .events-track > .running-card .running-meta-item:nth-child(1) {
+    font-size: .8rem;
+    color: var(--c-primary, #E87722);
+    font-weight: 600;
+    margin-bottom: .7rem;
+  }
+  .events-track > .running-card .running-meta-item:nth-child(1)::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--c-primary, #E87722);
+    flex-shrink: 0;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  .events-track > .running-card .running-meta-item:nth-child(1) .material-symbols-outlined { display: none; }
+  .events-track > .running-card .running-price-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 3;
+    background: rgba(10,8,5,.75);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(232,119,34,.3);
+    border-radius: 8px;
+    padding: 6px 10px;
+    text-align: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 17px;
+    color: #f1f5f9;
+    margin: 0;
+  }
+  .events-track > .running-card .running-price-badge::before {
+    content: 'From';
+    display: block;
+    font-size: 9px;
+    font-weight: 400;
+    color: rgba(203,213,225,0.6);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-family: inherit;
+  }
+  .events-track > .running-card .running-card-footer {
+    display: block;
+    margin: 0;
+    padding: 0;
+    position: static;
+  }
+  .cat-slide .cat-footer,
+  .events-track > .running-card .running-card-footer { margin: 0; }
+  .cat-slide .btn-ticket,
+  .events-track > .running-card .btn-tickets {
+    width: 100%;
+    background: transparent;
+    color: var(--c-primary, #E87722);
+    border: 1.5px solid var(--c-primary, #E87722);
+    border-radius: 7px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 9px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .cat-slide .btn-ticket:hover,
+  .events-track > .running-card .btn-tickets:hover {
+    background: var(--c-primary, #E87722);
+    color: #0a0805;
+  }
+  @media (max-width: 800px) {
+    .cat-slide,
+    .events-track > .running-card { flex: 0 0 calc((100% - 20px)/2); }
+  }
+  @media (max-width: 500px) {
+    .cat-slide,
+    .events-track > .running-card { flex: 0 0 80vw; }
+  }
 </style>
 
 <section class="py-24 px-6 lg:px-20">
@@ -242,13 +434,9 @@
         <h3 class="text-primary font-black uppercase tracking-[0.3em] text-sm mb-2">Find Your Race</h3>
         <h2 class="text-4xl md:text-5xl font-black italic uppercase">Choose Your Challenge</h2>
       </div>
-      <div class="nav-btn-row">
-        <button class="nav-btn-sm" id="distPrev">&#8592;</button>
-        <button class="nav-btn-sm" id="distNext">&#8594;</button>
-      </div>
     </div>
-    <div class="cat-outer"><div class="cat-track" id="distTrack"></div></div>
-    <div class="cat-dots" id="distDots"></div>
+    <div class="events-outer"><div class="events-track" id="distTrack"></div></div>
+    <div class="ev-dots" id="distDots"></div>
   </div>
 </section>
 
@@ -260,13 +448,9 @@
         <h3 class="text-primary font-black uppercase tracking-[0.3em] text-sm mb-2">Race Formats</h3>
         <h2 class="text-4xl md:text-5xl font-black italic uppercase">Circuits</h2>
       </div>
-      <div class="nav-btn-row">
-        <button class="nav-btn-sm" id="circPrev">&#8592;</button>
-        <button class="nav-btn-sm" id="circNext">&#8594;</button>
-      </div>
     </div>
-    <div class="cat-outer"><div class="cat-track" id="circTrack"></div></div>
-    <div class="cat-dots" id="circDots"></div>
+    <div class="events-outer"><div class="events-track" id="circTrack"></div></div>
+    <div class="ev-dots" id="circDots"></div>
   </div>
 </section>
 
@@ -278,22 +462,35 @@
         <h3 class="text-primary font-black uppercase tracking-[0.3em] text-sm mb-2">Terrain Types</h3>
         <h2 class="text-4xl md:text-5xl font-black italic uppercase">Land</h2>
       </div>
-      <div class="nav-btn-row">
-        <button class="nav-btn-sm" id="landPrev">&#8592;</button>
-        <button class="nav-btn-sm" id="landNext">&#8594;</button>
+    </div>
+    <div class="events-outer"><div class="events-track" id="landTrack"></div></div>
+    <div class="ev-dots" id="landDots"></div>
+  </div>
+</section>
+
+<!-- ===== MOST VISITED ===== -->
+<section class="py-24 px-6 lg:px-20 bg-primary/5 border-y border-primary/10">
+  <div class="max-w-[1440px] mx-auto">
+    <div class="flex justify-between items-end mb-12">
+      <div>
+        <h3 class="text-primary font-black uppercase tracking-[0.3em] text-sm mb-2">Trending Now</h3>
+        <h2 class="text-4xl md:text-5xl font-black italic uppercase">Most Visited</h2>
       </div>
     </div>
-    <div class="cat-outer"><div class="cat-track" id="landTrack"></div></div>
-    <div class="cat-dots" id="landDots"></div>
+    <div class="events-outer">
+      <div class="events-track" id="containerMostVisited"></div>
+    </div>
+    <div class="ev-dots" id="mostDots"></div>
   </div>
 </section>
 
 <script>
 function initCatCarousel(trackId, prevId, nextId, dotsId) {
   const track = document.getElementById(trackId);
-  if (!track) return;
+  if (!track || !track.children.length) return;
   const outer = track.parentElement;
   const dotsEl = document.getElementById(dotsId);
+  if (!dotsEl) return;
   let current = 0;
 
   function getVisible() {
@@ -309,7 +506,7 @@ function initCatCarousel(trackId, prevId, nextId, dotsId) {
     if (n <= 1) return;
     for (let i = 0; i < n; i++) {
       const d = document.createElement('button');
-      d.className = 'cat-dot' + (i === current ? ' active' : '');
+      d.className = 'ev-dot-btn' + (i === current ? ' active' : '');
       d.addEventListener('click', () => goTo(i));
       dotsEl.appendChild(d);
     }
@@ -317,13 +514,14 @@ function initCatCarousel(trackId, prevId, nextId, dotsId) {
   function goTo(idx) {
     const n = totalPages();
     current = Math.max(0, Math.min(idx, n - 1));
-    const gap = 18;
-    const slideW = (outer.offsetWidth - gap * (getVisible() - 1)) / getVisible();
+    const gap = 20;
+    const vis = getVisible();
+    const slideW = (outer.offsetWidth - gap * (vis - 1)) / vis;
     track.style.transform = `translateX(-${current * (slideW + gap)}px)`;
     Array.from(dotsEl.children).forEach((d, i) => d.classList.toggle('active', i === current));
   }
-  const prevBtn = document.getElementById(prevId);
-  const nextBtn = document.getElementById(nextId);
+  const prevBtn = prevId ? document.getElementById(prevId) : null;
+  const nextBtn = nextId ? document.getElementById(nextId) : null;
   if (prevBtn && !prevBtn.dataset.bound) {
     prevBtn.addEventListener('click', () => goTo(current - 1));
     prevBtn.dataset.bound = '1';
@@ -334,7 +532,19 @@ function initCatCarousel(trackId, prevId, nextId, dotsId) {
   }
   buildDots();
   goTo(0);
-  window.addEventListener('resize', () => { buildDots(); goTo(0); });
+  if (!track.dataset.carouselResize) {
+    track.dataset.carouselResize = '1';
+    window.addEventListener('resize', () => { buildDots(); goTo(current); });
+  }
+}
+
+function watchCarouselTrack(trackId, dotsId) {
+  const track = document.getElementById(trackId);
+  if (!track) return;
+  const obs = new MutationObserver(function() {
+    if (track.children.length) initCatCarousel(trackId, null, null, dotsId);
+  });
+  obs.observe(track, { childList: true });
 }
 
 function initEventsCarousel() {
@@ -377,4 +587,5 @@ function initEventsCarousel() {
 
 window.initEventsCarousel = initEventsCarousel;
 window.initCatCarousel = initCatCarousel;
+watchCarouselTrack('containerMostVisited', 'mostDots');
 </script>

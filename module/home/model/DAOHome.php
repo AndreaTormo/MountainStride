@@ -63,11 +63,12 @@ class DAOHome {
                 return $res;
                 }
         function select_most_visited(){
-		$sql = "SELECT r.id_running, r.running_name, r.race_date, r.price, r.visit_count, c.circuit_name, c.circuit_image
-				FROM running r
-				JOIN circuits c ON r.id_circuit = c.id_circuit
-				ORDER BY r.visit_count DESC
-				LIMIT 4";
+		$sql = "SELECT r.id_running, r.running_name, r.running_image, r.race_date, r.price, r.visit_count,
+				c.circuit_name, c.circuit_image
+			FROM running r
+			INNER JOIN circuits c ON r.id_circuit = c.id_circuit
+			ORDER BY r.visit_count DESC, r.id_running ASC
+			LIMIT 4";
 		$conexion = connect::con();
 		$stmt = $conexion->prepare($sql);
 		$stmt->execute();

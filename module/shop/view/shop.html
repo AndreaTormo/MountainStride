@@ -22,7 +22,20 @@
                     <div id="container-info-shop"></div>
                 </div>
                 <div id="map-detail" style="display:none; height:420px; width:100%; margin-top:32px; border-radius:14px; border:1px solid rgba(244,140,37,0.15);"></div>
-                <div class="results" style="margin-top:32px;"></div>
+                <div class="results" style="margin-top:32px;">
+                    <div id="title_content" class="title_content" style="display:none;">
+                        <div class="related-header">
+                            <h2 class="cat">Runnings related</h2>
+                            <div class="nav-btn-row">
+                                <button type="button" class="nav-btn-sm" id="relatedPrev">&#8592;</button>
+                                <button type="button" class="nav-btn-sm" id="relatedNext">&#8594;</button>
+                            </div>
+                        </div>
+                        <div class="cat-outer"><div class="cat-track" id="relatedTrack"></div></div>
+                        <div class="cat-dots" id="relatedDots"></div>
+                        <div class="more_running__button"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -474,6 +487,71 @@
     border-color: #f48c25;
     color: #1f140a;
 }
+
+/* Related runnings carousel */
+.results .related-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.results .cat { margin: 0; font-family: 'Lexend', sans-serif; font-weight: 900; text-transform: uppercase; color: #f8f7f5; }
+.results .cat-outer { overflow: hidden; }
+.results .cat-track { display: flex; gap: 18px; transition: transform .55s cubic-bezier(.77,0,.18,1); }
+.results .cat-slide { flex: 0 0 calc((100% - 36px) / 3); min-width: 200px; }
+.results .cat-slide.more_info_list {
+    display: block;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+    letter-spacing: normal;
+    text-transform: none;
+    color: inherit;
+}
+.results .user_card {
+    background: #1e1812;
+    border: 1px solid rgba(244, 140, 37, 0.18);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform .3s, border-color .3s;
+}
+.results .user_card:hover { transform: translateY(-4px); border-color: rgba(244, 140, 37, 0.5); }
+.results .cat-img-wrap { aspect-ratio: 4/3; overflow: hidden; background: #1a1610; }
+.results .cat-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.results .cat-body { padding: .75rem 1rem; }
+.results .cat-name {
+    margin: 0;
+    font-family: 'Lexend', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #f48c25;
+    line-height: 1.3;
+}
+.results .nav-btn-row { display: flex; gap: 8px; }
+.results .nav-btn-sm {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(244, 140, 37, 0.1);
+    border: 1px solid rgba(244, 140, 37, 0.25);
+    color: #f48c25; cursor: pointer; font-size: 16px;
+}
+.results .nav-btn-sm:hover { background: #f48c25; color: #1f140a; }
+.results .cat-dots { display: flex; justify-content: center; gap: 6px; margin-top: 1rem; }
+.results .cat-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(255,255,255,.2); border: none; cursor: pointer; padding: 0;
+}
+.results .cat-dot.active { background: #f48c25; width: 20px; border-radius: 4px; }
+.results .more_running__button { margin-top: 1rem; text-align: center; }
+.results .load_more_button {
+    padding: 10px 20px; border-radius: 999px;
+    border: 1px solid rgba(244, 140, 37, 0.45);
+    background: rgba(244, 140, 37, 0.12);
+    color: #f48c25; font-weight: 700; cursor: pointer;
+}
+@media (max-width: 800px) { .results .cat-slide { flex: 0 0 calc((100% - 18px) / 2); } }
+@media (max-width: 500px) { .results .cat-slide { flex: 0 0 80vw; } }
 </style>
 
 
@@ -494,3 +572,133 @@
 
 <!-- Mapa global de todas las carreras -->
 <div id="map-all"></div>
+
+<script>
+function relatedSlideHtml(r) {
+    return '<div class="cat-slide more_info_list" id="' + r.id_running + '">' +
+        '<div class="user_card">' +
+        '<div class="cat-img-wrap">' +
+        '<img class="cat-img" src="' + (r.running_image || '') + '" alt="' + (r.running_name || '') + '" loading="lazy">' +
+        '</div>' +
+        '<div class="cat-body">' +
+        '<p class="cat-name">' + (r.location || '') + ' ' + (r.running_name || '') + '</p>' +
+        '</div></div></div>';
+}
+
+// ── Estado global del carousel ──────────────────────────────────────────────
+var _rel = { items: [], loaded: 0, type: '', total: 0 };
+
+function runnings_related(loadeds, type_running) {
+    ajaxPromise("POST", "JSON", "module/shop/controller/controller_shop.php?op=runnings_related", {
+        type: type_running, loaded: loadeds, items: 3,
+        id_running: window._id_running_similar || ''
+    }).then(function(data) {
+        if (!Array.isArray(data)) return;
+        data.forEach(function(r) { if (r.id_running !== undefined) _rel.items.push(r); });
+        _rel.loaded = _rel.items.length;
+
+        // Mostrar bloque y rellenar track
+        var tc = document.getElementById('title_content');
+        if (tc) tc.style.display = '';
+        var track = document.getElementById('relatedTrack');
+        if (track) {
+            track.innerHTML = _rel.items.map(relatedSlideHtml).join('');
+        }
+
+        // Botón load more
+        var moreBtn = document.querySelector('.more_running__button');
+        if (moreBtn) {
+            moreBtn.innerHTML = _rel.loaded < _rel.total
+                ? '<button class="load_more_button">LOAD MORE</button>' : '';
+        }
+
+        // Reset flags de botones para que se re-bindeen
+        ['relatedPrev','relatedNext'].forEach(function(id) {
+            var b = document.getElementById(id);
+            if (b) delete b.dataset.bound;
+        });
+        window._relatedCarouselResize = false;
+        initRelatedCarousel();
+
+    }).catch(function() { console.log("error runnings_related"); });
+}
+
+function more_running_related(type_running) {
+    _rel.items  = [];
+    _rel.loaded = 0;
+    _rel.type   = type_running;
+    _rel.total  = 0;
+    window._relatedCarouselPage = 0;
+
+    ajaxPromise('POST', 'JSON', 'module/shop/controller/controller_shop.php?op=count_running_related', {
+        type: type_running, id_running: window._id_running_similar || ''
+    }).then(function(data) {
+        _rel.total = data[0].n_prod;
+        runnings_related(0, type_running);
+
+        $(document).off('click', '.load_more_button').on('click', '.load_more_button', function() {
+            window._relatedCarouselPage = window._relatedCarouselPage || 0;
+            runnings_related(_rel.loaded, _rel.type);
+        });
+    }).catch(function() { console.log('error count_running_related'); });
+}
+
+function initRelatedCarousel() {
+    const track = document.getElementById('relatedTrack');
+    if (!track || !track.children.length) return;
+    const outer = track.parentElement;
+    const dotsEl = document.getElementById('relatedDots');
+    let current = window._relatedCarouselPage || 0;
+
+    function getVisible() {
+        const w = outer.offsetWidth;
+        if (w < 500) return 1;
+        if (w < 800) return 2;
+        return 3;
+    }
+    function totalPages() { return Math.max(1, track.children.length - getVisible() + 1); }
+    function buildDots() {
+        if (!dotsEl) return;
+        dotsEl.innerHTML = '';
+        const n = totalPages();
+        if (n <= 1) return;
+        for (let i = 0; i < n; i++) {
+            const d = document.createElement('button');
+            d.className = 'cat-dot' + (i === current ? ' active' : '');
+            d.addEventListener('click', function() { goTo(i); });
+            dotsEl.appendChild(d);
+        }
+    }
+    function goTo(idx) {
+        const n = totalPages();
+        current = Math.max(0, Math.min(idx, n - 1));
+        window._relatedCarouselPage = current;
+        const gap = 18;
+        const vis = getVisible();
+        const slideW = (outer.offsetWidth - gap * (vis - 1)) / vis;
+        track.style.transform = 'translateX(-' + (current * (slideW + gap)) + 'px)';
+        if (dotsEl) Array.from(dotsEl.children).forEach(function(d, i) {
+            d.classList.toggle('active', i === current);
+        });
+    }
+    const prevBtn = document.getElementById('relatedPrev');
+    const nextBtn = document.getElementById('relatedNext');
+    if (prevBtn && !prevBtn.dataset.bound) {
+        prevBtn.addEventListener('click', function() { goTo(current - 1); });
+        prevBtn.dataset.bound = '1';
+    }
+    if (nextBtn && !nextBtn.dataset.bound) {
+        nextBtn.addEventListener('click', function() { goTo(current + 1); });
+        nextBtn.dataset.bound = '1';
+    }
+    if (!window._relatedCarouselResize) {
+        window._relatedCarouselResize = true;
+        window.addEventListener('resize', function() {
+            buildDots();
+            goTo(window._relatedCarouselPage || 0);
+        });
+    }
+    buildDots();
+    goTo(current);
+}
+</script>

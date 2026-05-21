@@ -249,7 +249,14 @@ function loadDetails(id_running) {
             </div>
         `;
         window._id_running_similar = id_running;
-        $('.results').empty();
+        var relatedTrack = document.getElementById('relatedTrack');
+        if (relatedTrack) relatedTrack.innerHTML = '';
+        var relatedDots = document.getElementById('relatedDots');
+        if (relatedDots) relatedDots.innerHTML = '';
+        var titleContent = document.getElementById('title_content');
+        if (titleContent) titleContent.style.display = 'none';
+        var moreRunningBtn = document.querySelector('.more_running__button');
+        if (moreRunningBtn) moreRunningBtn.innerHTML = '';
         more_running_related(d.status);
         }).catch(function() {
             console.log('error loadDetails');
@@ -607,93 +614,6 @@ function mapLeaflet_one(data) {
         .addTo(map);
 }
 
-function runnings_related(loadeds = 0, type_running, total_items) {
-    let items = 3;
-    let loaded = loadeds;
-    let type = type_running;
-    let total_item = total_items;
-
-    ajaxPromise("POST", "JSON", "module/shop/controller/controller_shop.php?op=runnings_related", { 'type': type, 'loaded': loaded, 'items': items, 'id_running': window._id_running_similar || '' })
-        .then(function(data) {
-            if (loaded == 0) {
-                $('<div></div>').attr({ 'id': 'title_content', class: 'title_content' }).appendTo('.results')
-                    .html(
-                        '<h2 class="cat">Runnings related</h2>'
-                    )
-                for (row in data) {
-                    if (data[row].id_running != undefined) {
-                        $('<div></div>').attr({ 'id': data[row].id_running, 'class': 'more_info_list' }).appendTo('.title_content')
-                            .html(
-                                `<li class='portfolio-item'>
-                                    <div class='item-main'>
-                                        <div class='portfolio-image'>
-                                            <img src=${data[row].running_image} alt='imagen running' </img>
-                                        </div>
-                                        <h5>${data[row].location}  ${data[row].running_name}</h5>
-                                    </div>
-                                </li>`
-                            )
-                    }
-                }
-                $('<div></div>').attr({ 'id': 'more_running__button', 'class': 'more_running__button' }).appendTo('.title_content')
-                    .html(
-                        '<button class="load_more_button" id="load_more_button">LOAD MORE</button>'
-                    )
-            }
-            if (loaded >= 3) {
-                for (row in data) {
-                    if (data[row].id_running != undefined) {
-                        console.log(data);
-                        $('<div></div>').attr({ 'id': data[row].id_running, 'class': 'more_info_list' }).appendTo('.title_content')
-                            .html(
-                                `<li class='portfolio-item'>
-                                    <div class='item-main'>
-                                        <div class='portfolio-image'>
-                                            <img src=${data[row].running_image} alt='imagen running' </img>
-                                        </div>
-                                        <h5>${data[row].location}  ${data[row].running_name}</h5>
-                                    </div>
-                                </li>`
-                            )
-                    }
-                }
-                var total_runnings = total_item - 3;
-                if (total_runnings <= loaded) {
-                    $('.more_running__button').empty();
-                    $('<div></div>').attr({ 'id': 'more_running__button', 'class': 'more_running__button' }).appendTo('.title_content')
-                        .html(
-                            `</br><button class='btn-notexist' id='btn-notexist'></button>`
-                        )
-                } else {
-                    $('.more_running__button').empty();
-                    $('<div></div>').attr({ 'id': 'more_running__button', 'class': 'more_running__button' }).appendTo('.title_content')
-                        .html(
-                            '<button class="load_more_button" id="load_more_button">LOAD MORE</button>'
-                        )
-                }
-            }
-        }).catch(function() {
-            console.log("error runnings_related");
-        });
-}
-
-function more_running_related(type_running){
-    var type_running = type_running;
-    var items = 0;
-    ajaxPromise('POST', 'JSON', 'module/shop/controller/controller_shop.php?op=count_running_related', { 'type': type_running, 'id_running': window._id_running_similar || '' })
-        .then(function(data) {
-            var total_items = data[0].n_prod;
-            runnings_related(0, type_running, total_items);
-            $(document).on("click", '.load_more_button', function() {
-                items = items + 3;
-                $('.more_running__button').empty();
-                runnings_related(items, type_running, total_items);
-            });
-        }).catch(function() {
-            console.log('error total_items');
-        });
-}
-
 function save_orderby() {
     $(document).on('click', '.order-btn', function() {
         var orderby = [];
@@ -712,10 +632,6 @@ function save_orderby() {
         SHOP_LAST_FILTER = null;
         ajaxForSearch(SHOP_LAST_URL);
     });
-}
-
-function updateMostVisited(id){
-     ajaxPromise('module/shop/controller/controller_shop.php?op=update_most_visited&id=' + id, 'GET', 'JSON')
 }
 
 // ─── INIT ──────────────────

@@ -79,14 +79,20 @@ switch ($_GET['op']) {
  
     case 'details_running':
         try {
+            $id_running = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+            if ($id_running <= 0) {
+                echo json_encode("error");
+                break;
+            }
             $daoshop      = new DAOShop();
-            $Date_running = $daoshop->select_one_running($_GET['id']);
-            $Date_images  = $daoshop->select_imgs_running($_GET['id']);
-            $Date_extras  = $daoshop->select_extras_running($_GET['id']);
+            $Date_running = $daoshop->select_one_running($id_running);
+            $Date_images  = $daoshop->select_imgs_running($id_running);
+            $Date_extras  = $daoshop->select_extras_running($id_running);
         } catch (Exception $e) {
             echo json_encode("error"); exit;
         }
         if (!empty($Date_running)) {
+            $daoshop->update_visits_event($id_running);
             $rdo      = [];
             $rdo[0]   = $Date_running;
             $rdo[1][] = $Date_images;
@@ -242,13 +248,21 @@ switch ($_GET['op']) {
 
     case 'update_most_visited':
         try {
+            $id_running = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+            if ($id_running <= 0) {
+                echo json_encode("error");
+                break;
+            }
             $daoshop = new DAOShop();
-            $daoshop->update_visits_event($_GET['id']);
-            echo json_encode("ok");
+            if ($daoshop->update_visits_event($id_running)) {
+                echo json_encode("ok");
+            } else {
+                echo json_encode("error");
+            }
         } catch (Exception $e) {
             echo json_encode("error");
         }
-    break;
+        break;
 }
 
 ?>

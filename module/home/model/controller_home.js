@@ -236,39 +236,67 @@ function loadRunners() {
     });
 }
 
-function loadMostVisited() { 
-    ajaxPromise('module/home/controller/controller_home.php?op=homePageMostVisited', 'GET', 'JSON')
+function formatMostVisitedDate(raceDate) {
+    var MESES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    if (!raceDate) {
+        return '-';
+    }
+    var s = String(raceDate).trim().split(/[T\s]/)[0];
+    var parts = s.split('-');
+    if (parts.length >= 3) {
+        var mes = MESES[parseInt(parts[1], 10) - 1] || '';
+        return (parts[2] || '') + ' ' + mes + ' ' + (parts[0] || '');
+    }
+    return s;
+}
+
+function loadMostVisited() {
+    ajaxPromise('GET', 'JSON', 'module/home/controller/controller_home.php?op=homePageMostVisited')
     .then(function(data) {
         $('#containerMostVisited').empty();
-        for (let row = 0; row < data.length; row++) {
-            const p = data[row];
-            const f = p.race_date.split('-');
-            const mes = MESES[parseInt(f[1]) - 1];
 
-            $('<div></div>').attr({ 'id': r.id_running, 'class': 'running-card' }).appendTo('#containerMostVisited')
+        if (!Array.isArray(data) || data === 'error' || !data.length) {
+            return;
+        }
+
+        for (let row = 0; row < data.length; row++) {
+            const r = data[row];
+            if (!r || !r.id_running) {
+                continue;
+            }
+            const img = r.running_image || r.circuit_image || '';
+            const dateLabel = formatMostVisitedDate(r.race_date);
+
+            $('<div></div>')
+                .attr({ id: r.id_running, class: 'running-card' })
+                .appendTo('#containerMostVisited')
                 .html(`
-                    <img class="running-card-img" src="${r.runner_image}" alt="${r.running_name}"/>
+                    <img class="running-card-img" src="${img}" alt="${r.running_name || ''}" onerror="this.style.display='none'"/>
                     <div class="running-card-body">
-                        <p class="running-name">${r.running_name}</p>
+                        <p class="running-name">${r.running_name || ''}</p>
                         <div class="running-meta">
                             <span class="running-meta-item">
                                 <span class="material-symbols-outlined">circuit</span>
-                                ${c.circuit_name}
+                                ${r.circuit_name || ''}
                             </span>
                             <span class="running-meta-item">
                                 <span class="material-symbols-outlined">calendar_month</span>
-                                ${f[2]} ${mes} ${f[0]}
+                                ${dateLabel}
                             </span>
                         </div>
                         <div class="running-card-footer">
-                            <span class="running-price-badge">${r.price}€</span>
-                            <button class="btn-tickets" id="${r.id_running}">View tickets</button>
+                            <span class="running-price-badge">${r.price != null ? r.price : ''}€</span>
+                            <button class="btn-tickets btn-running" data-running="${r.id_running}">View tickets</button>
                         </div>
                     </div>
                 `);
         }
-    }).catch(function(err) {
-    console.log('error loadMostVisited', err);
+
+        if ($('#containerMostVisited').children().length && typeof window.initCatCarousel === 'function') {
+            window.initCatCarousel('containerMostVisited', null, null, 'mostDots');
+        }
+    }).catch(function() {
+        console.error('Error loading most visited');
     });
 }
 

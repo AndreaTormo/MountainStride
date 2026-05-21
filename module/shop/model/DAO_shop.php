@@ -386,13 +386,18 @@ class DAOShop {
     }
 
     function update_visits_event($id) {
+        $id = (int) $id;
+        if ($id <= 0) {
+            return false;
+        }
         $sql = "UPDATE running SET visit_count = visit_count + 1 WHERE id_running = :id";
-
         $conexion = connect::con();
         $stmt = $conexion->prepare($sql);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
+        $ok = $stmt->rowCount() > 0;
         connect::close($conexion);
+        return $ok;
     }
 }
 ?>

@@ -91,19 +91,11 @@ switch ($_GET['op']) {
         break;
  
     case 'homePageMostVisited':
-        // echo json_encode("homePageCategory");
-        // exit();
-        try{
+        try {
             $daohome = new DAOHome();
             $MostVisited = $daohome->select_most_visited();
-        } catch(Exception $e){
-            echo json_encode("error");
-        }
-            
-        if(!empty($MostVisited)){
-            echo json_encode($MostVisited); 
-        }
-        else{
+            echo json_encode(!empty($MostVisited) ? $MostVisited : []);
+        } catch (Exception $e) {
             echo json_encode("error");
         }
         break;

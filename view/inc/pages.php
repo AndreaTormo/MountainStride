@@ -1,4 +1,7 @@
 <?php
+if (isset($_GET['module']) && !isset($_GET['page'])) {
+	$_GET['page'] = $_GET['module'];
+}
 if(isset($_GET['page'])){
 	switch($_GET['page']){
 		case "controller_home";
@@ -6,6 +9,9 @@ if(isset($_GET['page'])){
 			break;
 		case "controller_shop":
     		include("module/shop/controller/controller_shop.php");
+    		break;
+		case "controller_login":
+    		include("module/login/controller/controller_login.php");
     		break;
 		case "404";
 			include("view/inc/error".$_GET['page'].".php");

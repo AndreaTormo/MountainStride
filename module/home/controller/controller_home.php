@@ -14,6 +14,10 @@ switch ($_GET['op']) {
         $filter_val = $_GET['filter_val'] ?? null;
         include("module/home/view/home.html");
         break;
+
+    case 'list':
+        include("module/home/view/home.html");
+        break;
  
     case 'homePageRunning':
         try {

@@ -1,12 +1,12 @@
 <?php
-    if ((isset($_GET['page'])) && ($_GET['page']==="controller_home") ){
+    $page = $_GET['page'] ?? ($_GET['module'] ?? '');
+    if ($page === 'controller_home') {
 		include("view/inc/top_page_home.php");
-	}else{
-		include("view/inc/top_page.php");
-	}
-	if ((isset($_GET['page'])) && ($_GET['page']==="controller_shop") ){
+	} elseif ($page === 'controller_shop') {
 		include("view/inc/top_page_shop.php");
-	}else{
+	} elseif ($page === 'controller_login') {
+		include("view/inc/top_page_login.php");
+	} else {
 		include("view/inc/top_page.php");
 	}
 	session_start();

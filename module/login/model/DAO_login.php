@@ -18,8 +18,8 @@ class DAOLogin {
         $hashed_pass = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
         $hashavatar = md5(strtolower(trim($email)));
         $avatar = "https://i.pravatar.cc/500?u=$hashavatar";
-        $sql = "INSERT INTO users (username, password, email, type_user, avatar)
-                VALUES (:username, :password, :email, 'client', :avatar)";
+        $sql = "INSERT INTO users (username, password, email, role, avatar)
+                VALUES (:username, :password, :email, 'user', :avatar)";
         $conexion = connect::con();
         $stmt = $conexion->prepare($sql);
         $res = $stmt->execute([
@@ -33,7 +33,7 @@ class DAOLogin {
     }
 
     function select_user($username) {
-        $sql = "SELECT username, password, email, type_user, avatar FROM users WHERE username = :username";
+        $sql = "SELECT username, password, email, role, avatar FROM users WHERE username = :username";
         $conexion = connect::con();
         $stmt = $conexion->prepare($sql);
         $stmt->execute([':username' => $username]);

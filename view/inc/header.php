@@ -38,9 +38,9 @@
   </div>
 
   <div class="flex items-center gap-3">
-    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20 hover:bg-primary/20 transition-colors cursor-pointer">
+    <a href="index.php?page=controller_login&op=login-register_view" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20 hover:bg-primary/20 transition-colors cursor-pointer" title="Sign in">
       <span class="material-symbols-outlined text-primary">person</span>
-    </div>
+    </a>
   </div>
 
 </div>

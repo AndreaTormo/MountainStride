@@ -1,0 +1,131 @@
+.login-wrap {
+    min-height: calc(100vh - 180px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.login-html {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(34, 25, 16, 0.95);
+    border: 1px solid rgba(244, 140, 37, 0.25);
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+}
+
+.login-html input[type="radio"] {
+    display: none;
+}
+
+.login-html .tab {
+    display: inline-block;
+    width: 50%;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.55);
+    background: rgba(0, 0, 0, 0.2);
+    transition: all 0.25s ease;
+}
+
+.login-html .sign-in:checked ~ .tab:first-of-type,
+.login-html .sign-up:checked ~ .tab:last-of-type {
+    color: #0a0805;
+    background: #f48c25;
+}
+
+.login-form {
+    padding: 2rem 1.75rem 1.75rem;
+}
+
+.sign-in-htm,
+.sign-up-htm {
+    display: none;
+}
+
+.login-html .sign-in:checked ~ .login-form .sign-in-htm,
+.login-html .sign-up:checked ~ .login-form .sign-up-htm {
+    display: block;
+}
+
+.group {
+    margin-bottom: 1.1rem;
+}
+
+.label {
+    display: block;
+    margin-bottom: 0.45rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(244, 140, 37, 0.85);
+}
+
+.input {
+    width: 100%;
+    padding: 0.75rem 0.9rem;
+    border-radius: 8px;
+    border: 1px solid rgba(244, 140, 37, 0.25);
+    background: rgba(10, 8, 5, 0.6);
+    color: #f1f5f9;
+    font-size: 0.95rem;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    border-color: #f48c25;
+    box-shadow: 0 0 0 2px rgba(244, 140, 37, 0.2);
+}
+
+.error {
+    display: block;
+    min-height: 1.1rem;
+    margin-top: 0.35rem;
+    font-size: 0.78rem;
+    color: #f87171;
+}
+
+.button {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.85rem;
+    border: none;
+    border-radius: 8px;
+    background: #f48c25;
+    color: #0a0805;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.button:hover {
+    background: #ff9f40;
+    transform: translateY(-1px);
+}
+
+.hr {
+    height: 1px;
+    margin: 1.25rem 0 0.75rem;
+    background: rgba(244, 140, 37, 0.2);
+}
+
+.foot-lnk label {
+    font-size: 0.85rem;
+    color: rgba(203, 213, 225, 0.75);
+    cursor: pointer;
+}
+
+.foot-lnk label:hover {
+    color: #f48c25;
+}

@@ -9,6 +9,10 @@ switch ($_GET['op']) {
     case 'view':
         include('module/shop/view/shop.html');
         break;
+
+    case 'list':
+        include('module/shop/view/shop.html');
+        break;
  
     case 'all_running':
         try {

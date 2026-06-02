@@ -1,3 +1,11 @@
+body {
+    background: linear-gradient(135deg, rgba(10,8,5,0.65), rgba(34,25,16,0.75)), url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
 .login-wrap {
     min-height: calc(100vh - 180px);
     display: flex;

@@ -26,6 +26,7 @@
         },
     }
 </script>
+<link href="view/css/style.css?v=2" rel="stylesheet" type="text/css" />
 <title>Mountain Stride | Elite Trail Running Events</title>
 <style>
     .text-stroke-primary {

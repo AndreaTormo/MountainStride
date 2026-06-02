@@ -16,13 +16,22 @@
     overflow: hidden;
 }
 
-.login-html input[type="radio"] {
+.login-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+}
+
+.login-tabs input[type="radio"] {
     display: none;
 }
 
-.login-html .tab {
-    display: inline-block;
-    width: 50%;
+.login-tabs .tab {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
     padding: 1rem;
     text-align: center;
     cursor: pointer;
@@ -33,15 +42,17 @@
     color: rgba(255, 255, 255, 0.55);
     background: rgba(0, 0, 0, 0.2);
     transition: all 0.25s ease;
+    margin: 0;
 }
 
-.login-html .sign-in:checked ~ .tab:first-of-type,
-.login-html .sign-up:checked ~ .tab:last-of-type {
+.login-html:has(#tab-1:checked) .login-tabs label[for="tab-1"],
+.login-html:has(#tab-2:checked) .login-tabs label[for="tab-2"] {
     color: #0a0805;
     background: #f48c25;
 }
 
 .login-form {
+    width: 100%;
     padding: 2rem 1.75rem 1.75rem;
 }
 
@@ -50,8 +61,8 @@
     display: none;
 }
 
-.login-html .sign-in:checked ~ .login-form .sign-in-htm,
-.login-html .sign-up:checked ~ .login-form .sign-up-htm {
+.login-html:has(#tab-1:checked) .login-form .sign-in-htm,
+.login-html:has(#tab-2:checked) .login-form .sign-up-htm {
     display: block;
 }
 

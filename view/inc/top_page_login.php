@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="module/login/view/css/login.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 <script id="tailwind-config">
     tailwind.config = {
@@ -26,6 +25,8 @@
         },
     }
 </script>
+<link href="module/login/view/css/login.css?v=2" rel="stylesheet" type="text/css" />
+<link href="view/css/style.css?v=2" rel="stylesheet" type="text/css" />
 <title>Mountain Stride | Sign In</title>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">

@@ -171,6 +171,50 @@ input, select, textarea, button {
   font: inherit;
 }
 
+/* Header layout — filtros primero, perfil, logo, shop */
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: nowrap;
+}
+
+.header-inner .div_search {
+  order: 1;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.header-user-btn {
+  order: 2;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: rgba(244, 140, 37, 0.1);
+  border: 1px solid rgba(244, 140, 37, 0.2);
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.header-user-btn:hover {
+  background: rgba(244, 140, 37, 0.2);
+}
+
+.header-logo {
+  order: 3;
+  flex-shrink: 0;
+}
+
+.header-nav {
+  order: 4;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
 /* Header search — barra unificada (circuits, category, event, search) */
 .div_search {
   position: relative;

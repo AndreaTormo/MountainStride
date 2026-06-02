@@ -23,6 +23,8 @@ function ajaxPromise(sUrl, sType, sTData, sData = undefined) {
 
 //================LOAD-HEADER================
 function load_menu() {
+    if (window._menu_loaded) return;
+    window._menu_loaded = true;
     var token = localStorage.getItem('token');
     if (token) {
         ajaxPromise('module/login/controller/controller_login.php?op=data_user', 'POST', 'JSON', { 'token': token })
@@ -62,6 +64,8 @@ function load_menu() {
 
 //================CLICK-LOGIUT================
 function click_logout() {
+    if (window._logout_bound) return;
+    window._logout_bound = true;
     $(document).on('click', '#logout', function() {
         localStorage.removeItem('total_prod');
         toastr.success("Logout succesfully");
@@ -82,6 +86,8 @@ function logout() {
 
 // Remove localstorage('page') with click in shop
 function click_shop() {
+    if (window._shop_bound) return;
+    window._shop_bound = true;
     $(document).on('click', '#opc_shop', function() {
         localStorage.removeItem('page');
         localStorage.removeItem('total_prod');

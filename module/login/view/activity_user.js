@@ -89,7 +89,10 @@ function click_shop() {
 }
 
 $(document).ready(function() {
-    load_menu();
+    var token = localStorage.getItem('token');
+    if (token) {
+        load_menu();
+    }
     click_logout();
     click_shop();
 });

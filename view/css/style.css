@@ -180,13 +180,13 @@ input, select, textarea, button {
 }
 
 .header-inner .div_search {
-  order: 1;
+  order: 3;
   flex: 1 1 auto;
   min-width: 0;
 }
 
 .header-user-btn {
-  order: 2;
+  order: 4;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -205,12 +205,12 @@ input, select, textarea, button {
 }
 
 .header-logo {
-  order: 3;
+  order: 1;
   flex-shrink: 0;
 }
 
 .header-nav {
-  order: 4;
+  order: 2;
   margin-left: auto;
   flex-shrink: 0;
 }

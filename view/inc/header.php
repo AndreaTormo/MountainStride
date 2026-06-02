@@ -1,22 +1,6 @@
 <header class="sticky top-0 z-50 w-full border-b border-primary/10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-6 lg:px-20 py-4">
 <div class="max-w-[1440px] mx-auto header-inner">
 
-  <!-- Filtros primero -->
-  <div class="div_search" role="search" aria-label="Search races">
-    <select class="search_brand" aria-label="Circuits"></select>
-    <select class="search_category" aria-label="Category"></select>
-    <div class="header-search-input-wrap">
-      <input type="text" id="autocom" autocomplete="off" placeholder="Event name…" />
-      <div id="search_auto"></div>
-    </div>
-    <button type="button" id="search-btn" class="header-search-submit">Search</button>
-  </div>
-
-  <!-- Sign in / perfil, junto a los filtros -->
-  <a href="index.php?page=controller_login&op=login-register_view" class="header-user-btn" aria-label="Sign in">
-    <span class="material-symbols-outlined text-primary">person</span>
-  </a>
-
   <!-- Logo -->
   <div class="header-logo flex items-center gap-3 group cursor-pointer">
     <div class="relative w-10 h-10 flex items-center justify-center">
@@ -33,10 +17,26 @@
     </div>
   </div>
 
-  <!-- Shop -->
-  <nav class="header-nav hidden lg:flex items-center">
+  <!-- Nav -->
+  <nav class="header-nav hidden lg:flex items-center gap-8">
     <a class="header-nav-shop" href="index.php?page=controller_shop&op=view">Shop</a>
   </nav>
+
+  <!-- Filtros -->
+  <div class="div_search" role="search" aria-label="Search races">
+    <select class="search_brand" aria-label="Circuits"></select>
+    <select class="search_category" aria-label="Category"></select>
+    <div class="header-search-input-wrap">
+      <input type="text" id="autocom" autocomplete="off" placeholder="Event name…" />
+      <div id="search_auto"></div>
+    </div>
+    <button type="button" id="search-btn" class="header-search-submit">Search</button>
+  </div>
+
+  <!-- Sign in / perfil -->
+  <a href="index.php?page=controller_login&op=login-register_view" class="header-user-btn" aria-label="Sign in">
+    <span class="material-symbols-outlined text-primary">person</span>
+  </a>
 
 </div>
 </header>

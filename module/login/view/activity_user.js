@@ -25,9 +25,9 @@ function ajaxPromise(sUrl, sType, sTData, sData = undefined) {
 function load_menu() {
     var token = localStorage.getItem('token');
     if (token) {
-        ajaxPromise('module/login/ctrl/ctrl_login.php?op=data_user', 'POST', 'JSON', { 'token': token })
+        ajaxPromise('module/login/controller/controller_login.php?op=data_user', 'POST', 'JSON', { 'token': token })
             .then(function(data) {
-                if (data.type_user == "client") {
+                if (data.role == "client") {
                     console.log("Client loged");
                     $('.opc_CRUD').empty();
                     $('.opc_exceptions').empty();
@@ -55,7 +55,7 @@ function load_menu() {
         $('.opc_exceptions').empty();
         $('#user_info').hide();
         $('.log-icon').empty();
-        $('<a href="index.php?module=ctrl_login&op=login-register_view"><i id="col-ico" class="fa-solid fa-user fa-2xl"></i></a>').appendTo('.log-icon');
+        $('<a href="index.php?page=controller_login&op=login-register_view"><i id="col-ico" class="fa-solid fa-user fa-2xl"></i></a>').appendTo('.log-icon');
     }
 }
 
@@ -71,10 +71,10 @@ function click_logout() {
 
 //================LOG-OUT================
 function logout() {
-    ajaxPromise('module/login/ctrl/ctrl_login.php?op=logout', 'POST', 'JSON')
+    ajaxPromise('module/login/controller/controller_login.php?op=logout', 'POST', 'JSON')
         .then(function(data) {
             localStorage.removeItem('token');
-            window.location.href = "index.php?module=ctrl_home&op=list";
+            window.location.href = "index.php?page=controller_home&op=view";
         }).catch(function() {
             console.log('Something has occured');
         });

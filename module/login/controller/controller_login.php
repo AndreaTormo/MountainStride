@@ -49,6 +49,59 @@ switch ($_GET['op'] ?? '') {
         }
         break;
 
+    case 'controluser':
+        $token = $_POST['token'] ?? '';
+        if ($token === ($_SESSION['token'] ?? '')) {
+            echo json_encode("Correct_User");
+        } else {
+            echo json_encode("Wrong_User");
+        }
+        break;
+
+    case 'data_user':
+        $token = $_POST['token'] ?? '';
+        if ($token === ($_SESSION['token'] ?? '')) {
+            $daologin = new DAOLogin();
+            $user = $daologin->select_user($_SESSION['username'] ?? '');
+            if ($user !== "error_user") {
+                echo json_encode([
+                    'username' => $user['username'],
+                    'avatar' => $user['avatar'] ?? 'default-avatar.png',
+                    'role' => $user['type_user'] ?? 'client'
+                ]);
+            }
+        }
+        break;
+
+    case 'actividad':
+        if (isset($_SESSION['username'])) {
+            echo json_encode("activo");
+        } else {
+            echo json_encode("inactivo");
+        }
+        break;
+
+    case 'refresh_token':
+        $token = $_POST['token'] ?? '';
+        if ($token === ($_SESSION['token'] ?? '')) {
+            $new_token = base64_encode($_SESSION['username'] . '.' . time());
+            $_SESSION['token'] = $new_token;
+            echo json_encode($new_token);
+        }
+        break;
+
+    case 'refresh_cookie':
+        if (isset($_SESSION['username'])) {
+            $_SESSION['last_activity'] = time();
+            echo json_encode("ok");
+        }
+        break;
+
+    case 'logout':
+        session_destroy();
+        echo json_encode("ok");
+        break;
+
     default:
         include("view/inc/error404.php");
         break;

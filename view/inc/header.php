@@ -30,13 +30,18 @@
       <input type="text" id="autocom" autocomplete="off" placeholder="Event name…" />
       <div id="search_auto"></div>
     </div>
-    <button type="button" id="search-btn" class="header-search-submit">Search</button>
   </div>
 
   <!-- Sign in / perfil -->
-  <a href="index.php?page=controller_login&op=login-register_view" class="header-user-btn" aria-label="Sign in">
-    <span class="material-symbols-outlined text-primary">person</span>
-  </a>
+  <div class="header-user-area">
+    <div class="log-icon header-user-btn">
+      <span class="material-symbols-outlined text-primary">person</span>
+    </div>
+    <div id="des_inf_user" class="header-user-info"></div>
+  </div>
+
+  <!-- Search button — al final de todo -->
+  <button type="button" id="search-btn" class="header-search-submit">Search</button>
 
 </div>
 </header>

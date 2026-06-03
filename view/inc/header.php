@@ -32,6 +32,9 @@
     </div>
   </div>
 
+  <!-- Search button -->
+  <button type="button" id="search-btn" class="header-search-submit">Search</button>
+
   <!-- Sign in / perfil -->
   <div class="header-user-area">
     <div class="log-icon header-user-btn">
@@ -39,9 +42,6 @@
     </div>
     <div id="des_inf_user" class="header-user-info"></div>
   </div>
-
-  <!-- Search button — al final de todo -->
-  <button type="button" id="search-btn" class="header-search-submit">Search</button>
 
 </div>
 </header>

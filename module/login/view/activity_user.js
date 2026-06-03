@@ -47,12 +47,11 @@ function load_menu() {
                 }
                 $('.log-icon').empty();
                 $('#user_info').empty();
-                $('<img src="' + data.avatar + '"alt="Robot">').appendTo('.log-icon');
+                $('<img src="' + data.avatar + '" alt="Avatar" class="log-icon-avatar">').appendTo('.log-icon');
                 $('<p></p>').attr({ 'id': 'user_info' }).appendTo('#des_inf_user')
                     .html(
-                        '<a id="logout"><i id="icon-logout" class="fa-solid fa-right-from-bracket"></i></a>' +
-                        '<a>' + data.username + '<a/>'
-
+                        '<a id="logout" title="Logout"><span class="material-symbols-outlined">logout</span></a>' +
+                        '<span class="header-username">' + data.username + '</span>'
                     )
 
             }).catch(function() {
@@ -64,7 +63,7 @@ function load_menu() {
         $('.opc_exceptions').empty();
         $('#user_info').hide();
         $('.log-icon').empty();
-        $('<a href="index.php?page=controller_login&op=login-register_view"><i id="col-ico" class="fa-solid fa-user fa-2xl"></i></a>').appendTo('.log-icon');
+        $('<a href="index.php?page=controller_login&op=login-register_view"><span class="material-symbols-outlined text-primary">person</span></a>').appendTo('.log-icon');
     }
 }
 

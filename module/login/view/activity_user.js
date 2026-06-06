@@ -101,10 +101,7 @@ function click_shop() {
 }
 
 $(document).ready(function() {
-    var token = localStorage.getItem('token');
-    if (token) {
-        load_menu();
-    }
+    load_menu();
     click_logout();
     click_shop();
 });

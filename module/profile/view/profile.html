@@ -1,0 +1,57 @@
+<div class="profile-page">
+
+    <div class="profile-card">
+
+        <!-- Cabecera con avatar -->
+        <div class="profile-header">
+            <div class="profile-avatar-wrap">
+                <img id="profile_avatar" src="" alt="Avatar" class="profile-avatar-img">
+                <div class="profile-avatar-ring"></div>
+            </div>
+            <div class="profile-header-info">
+                <h2 id="profile_display_name" class="profile-display-name">—</h2>
+                <span id="profile_role" class="profile-role-badge">user</span>
+            </div>
+        </div>
+
+        <!-- Info no editable -->
+        <div class="profile-info-row">
+            <span class="material-symbols-outlined profile-info-icon">mail</span>
+            <span id="profile_email" class="profile-info-value">—</span>
+        </div>
+
+        <div class="profile-divider"></div>
+
+        <!-- Formulario de edición -->
+        <form id="profile__form" method="POST">
+
+            <p class="profile-section-title">Edit account</p>
+
+            <div class="profile-group">
+                <label for="profile_username" class="profile-label">Username</label>
+                <div class="profile-input-wrap">
+                    <span class="material-symbols-outlined profile-input-icon">person</span>
+                    <input id="profile_username" type="text" name="username" class="profile-input" placeholder="Your username">
+                </div>
+                <span id="error_profile_username" class="profile-error"></span>
+            </div>
+
+            <div class="profile-group">
+                <label for="profile_password" class="profile-label">New password</label>
+                <div class="profile-input-wrap">
+                    <span class="material-symbols-outlined profile-input-icon">lock</span>
+                    <input id="profile_password" type="password" name="password" class="profile-input" placeholder="Leave empty to keep current password">
+                </div>
+                <span id="error_profile_password" class="profile-error"></span>
+            </div>
+
+            <button type="submit" id="save_profile" class="profile-btn">
+                <span class="material-symbols-outlined">save</span>
+                Save changes
+            </button>
+
+        </form>
+
+    </div>
+
+</div>

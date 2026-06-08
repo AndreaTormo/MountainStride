@@ -47,11 +47,11 @@ function load_menu() {
                 }
                 $('.log-icon').empty();
                 $('#user_info').empty();
-                $('<img src="' + data.avatar + '" alt="Avatar" class="log-icon-avatar">').appendTo('.log-icon');
+                $('<a href="index.php?page=controller_profile&op=view"><img src="' + data.avatar + '" alt="Avatar" class="log-icon-avatar"></a>').appendTo('.log-icon');
                 $('<p></p>').attr({ 'id': 'user_info' }).appendTo('#des_inf_user')
                     .html(
                         '<a id="logout" title="Logout"><span class="material-symbols-outlined">logout</span></a>' +
-                        '<span class="header-username">' + data.username + '</span>'
+                        '<a href="index.php?page=controller_profile&op=view" class="header-username">' + data.username + '</a>'
                     )
 
             }).catch(function() {

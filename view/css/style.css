@@ -252,6 +252,215 @@ input, select, textarea, button {
   font-size: 1.1rem;
 }
 
+a.header-username {
+  color: rgba(248, 247, 245, 0.9);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.8rem;
+  transition: color 0.2s;
+}
+
+a.header-username:hover {
+  color: #f48c25;
+}
+
+/* ===================== PROFILE PAGE ===================== */
+
+.profile-page {
+  min-height: calc(100vh - 160px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 480px;
+  background: rgba(34, 25, 16, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(244, 140, 37, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+  padding: 2rem 2rem 2.25rem;
+}
+
+/* Avatar + nombre */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.profile-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.profile-avatar-img {
+  width: 72px;
+  height: 72px;
+  border-radius: 9999px;
+  object-fit: cover;
+  display: block;
+  border: 2px solid rgba(244,140,37,0.4);
+}
+
+.profile-display-name {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #f1f5f9;
+  margin: 0 0 0.3rem;
+}
+
+.profile-role-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #0a0805;
+  background: #f48c25;
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+}
+
+/* Email info row */
+.profile-info-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  color: rgba(203, 213, 225, 0.6);
+  font-size: 0.88rem;
+}
+
+.profile-info-icon {
+  font-size: 16px;
+  color: rgba(244,140,37,0.5);
+}
+
+.profile-info-value {
+  color: rgba(203, 213, 225, 0.65);
+}
+
+/* Divisor */
+.profile-divider {
+  height: 1px;
+  background: rgba(244,140,37,0.12);
+  margin-bottom: 1.5rem;
+}
+
+/* Sección */
+.profile-section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(244,140,37,0.5);
+  margin-bottom: 1rem;
+}
+
+/* Grupo de campo */
+.profile-group {
+  margin-bottom: 1rem;
+}
+
+.profile-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(244, 140, 37, 0.8);
+}
+
+.profile-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.profile-input-icon {
+  position: absolute;
+  left: 0.85rem;
+  color: rgba(244,140,37,0.4);
+  font-size: 18px;
+  pointer-events: none;
+}
+
+.profile-input {
+  width: 100%;
+  padding: 0.75rem 0.9rem 0.75rem 3rem !important;
+  border-radius: 10px;
+  border: 1px solid rgba(244, 140, 37, 0.15);
+  background: rgba(255,255,255,0.04) !important;
+  color: #f1f5f9 !important;
+  font-size: 0.92rem;
+  outline: none;
+  box-sizing: border-box;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.profile-input::placeholder {
+  color: rgba(241,245,249,0.22) !important;
+}
+
+.profile-input:focus {
+  border-color: rgba(244,140,37,0.5);
+  background: rgba(244,140,37,0.05) !important;
+  box-shadow: 0 0 0 3px rgba(244,140,37,0.1);
+}
+
+.profile-error {
+  display: block;
+  min-height: 1rem;
+  margin-top: 0.3rem;
+  font-size: 0.73rem;
+  color: #f87171;
+  padding-left: 0.2rem;
+}
+
+/* Botón guardar */
+.profile-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f48c25 0%, #d97010 100%);
+  color: #0a0805;
+  font-weight: 900;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  font-family: inherit;
+  box-shadow: 0 4px 18px rgba(244,140,37,0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.profile-btn .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.profile-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(244,140,37,0.5);
+}
+
+.profile-btn:active {
+  transform: translateY(0);
+}
+
 .header-username {
   max-width: 100px;
   overflow: hidden;
@@ -357,14 +566,13 @@ input, select, textarea, button {
   position: relative;
   flex: 1 1 120px;
   min-width: 100px;
-  max-width: 200px;
   display: flex;
   align-items: stretch;
 }
 
 .div_search #autocom {
   width: 100%;
-  border-right: 1px solid rgba(244, 140, 37, 0.14);
+  border-right: none;
   border-radius: 0;
 }
 

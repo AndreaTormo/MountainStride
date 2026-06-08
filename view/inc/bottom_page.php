@@ -21,6 +21,8 @@ if ($page === 'controller_login') {
 ?>
 <script src="module/login/model/controller_login.js"></script>
 <script src="module/login/model/controller_register.js"></script>
+<?php } elseif ($page === 'controller_profile') { ?>
+<script src="module/profile/model/controller_profile.js"></script>
 <?php } else { ?>
 <!-- Home controller -->
 <script src="module/home/model/controller_home.js"></script>

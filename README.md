@@ -1,15 +1,18 @@
 <div align="center">
 
-# 🏔️ MOUNTAINSTRIDE
-### WORLD SERIES · TRAIL RUNNING
+<img src="https://raw.githubusercontent.com/AndreaTormo/MountainStride/main/docs/logo.png" width="380" alt="Mountain Stride Logo"/>
 
-**Plataforma de eventos de trail running de élite — descubre, filtra e inscríbete en las carreras más duras del mundo.**
+<br/>
 
-![PHP](https://img.shields.io/badge/PHP-8.3-777BB4?style=flat-square&logo=php&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-8.4-4479A1?style=flat-square&logo=mysql&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
-![Architecture](https://img.shields.io/badge/Arquitectura-MVC-FF6B35?style=flat-square)
-![JWT](https://img.shields.io/badge/Auth-JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.3-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-8.4-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![MVC](https://img.shields.io/badge/Arquitectura-MVC-FF6B35?style=for-the-badge)
+![JWT](https://img.shields.io/badge/Auth-JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
+
+<br/>
+
+> *"Push your limits in the wild"* — World Series 2026
 
 </div>
 
@@ -21,7 +24,26 @@ Mountain Stride World Series es una aplicación web full-stack para descubrir y 
 
 Construida sobre una arquitectura **MVC en PHP**, base de datos MySQL, autenticación JWT y frontend dinámico en JavaScript vanilla con llamadas AJAX al backend.
 
-> *"Push your limits in the wild"* — Mountain Stride 2026
+---
+
+## 🖥️ Capturas de pantalla
+
+<div align="center">
+
+### Página principal
+<img src="https://raw.githubusercontent.com/AndreaTormo/MountainStride/main/docs/home.png" width="100%" alt="Home"/>
+
+<br/>
+
+### Buscador de carreras
+<img src="https://raw.githubusercontent.com/AndreaTormo/MountainStride/main/docs/search.png" width="100%" alt="Search"/>
+
+<br/>
+
+### Login & Registro
+<img src="https://raw.githubusercontent.com/AndreaTormo/MountainStride/main/docs/login.png" width="100%" alt="Login"/>
+
+</div>
 
 ---
 

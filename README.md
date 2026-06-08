@@ -1,9 +1,8 @@
 <div align="center">
 
-# 🏔️ MOUNTAINSTRIDE
-### WORLD SERIES · TRAIL RUNNING
+<img src="https://raw.githubusercontent.com/AndreaTormo/MountainStride/main/logo.png" width="350" alt="Mountain Stride Logo"/>
 
-**Plataforma de eventos de trail running de élite — descubre, filtra e inscríbete en las carreras más duras del mundo.**
+<br/><br/>
 
 ![PHP](https://img.shields.io/badge/PHP-8.3-777BB4?style=flat-square&logo=php&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-8.4-4479A1?style=flat-square&logo=mysql&logoColor=white)

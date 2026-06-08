@@ -308,10 +308,11 @@ function print_filters() {
             <!-- TERRAIN — checkbox -->
             <div class="filter-group">
             <p class="filter-group-label">All Terrain</p>
-            <label><input type="checkbox" class="filter_land" value="Mountain"> Mountain</label>
+            <label><input type="checkbox" class="filter_land" value="Trail"> Trail</label>
+            <label><input type="checkbox" class="filter_land" value="Road"> Road</label>
+            <label><input type="checkbox" class="filter_land" value="Mixed"> Mixed</label>
+            <label><input type="checkbox" class="filter_land" value="Volcanic"> Volcanic</label>
             <label><input type="checkbox" class="filter_land" value="Desert"> Desert</label>
-            <label><input type="checkbox" class="filter_land" value="Forest"> Forest</label>
-            <label><input type="checkbox" class="filter_land" value="Coastal"> Coastal</label>
             </div>
 
             <!-- RUNNERS — checkbox -->
@@ -319,7 +320,7 @@ function print_filters() {
             <p class="filter-group-label">All Runners</p>
             <label><input type="checkbox" class="filter_runner" value="Kilian Jornet"> Kilian Jornet</label>
             <label><input type="checkbox" class="filter_runner" value="Courtney Dauwalter"> Courtney Dauwalter</label>
-            <label><input type="checkbox" class="filter_runner" value="François DHaene"> François DHaene</label>
+            <label><input type="checkbox" class="filter_runner" value="François D'Haene"> François D'Haene</label>
             <label><input type="checkbox" class="filter_runner" value="Sara Alonso"> Sara Alonso</label>
             <label><input type="checkbox" class="filter_runner" value="Camille Herron"> Camille Herron</label>
             <label><input type="checkbox" class="filter_runner" value="Pau Capell"> Pau Capell</label>
@@ -447,7 +448,7 @@ function filter_button() {
             if (land.length) filter.push(['land_name', land[0]]);
 
             var runner = JSON.parse(localStorage.getItem('filter_runner') || '[]');
-            if (runner.length) filter.push(['id_runner', runner[0]]);
+            if (runner.length) filter.push(['runner_name', runner[0]]);
 
             var priceMax = localStorage.getItem('filter_price_max');
             if (priceMax && parseInt(priceMax) < 1000) {

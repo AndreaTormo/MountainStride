@@ -198,8 +198,10 @@ class DAOShop {
                     FROM running r
                     LEFT JOIN land l ON r.id_land = l.id_land
                     LEFT JOIN circuits c ON r.id_circuit = c.id_circuit
-                    LEFT JOIN running_extras  ON r.id_running = running_extras.id_running
-                    LEFT JOIN distance d ON running_extras.id_distance = d.id_distance";
+                    LEFT JOIN running_extras ON r.id_running = running_extras.id_running
+                    LEFT JOIN distance d ON running_extras.id_distance = d.id_distance
+                    LEFT JOIN running_runners rrun ON r.id_running = rrun.id_running
+                    LEFT JOIN runners rn ON rrun.id_runner = rn.id_runner";
         $conditions = [];
 
         for ($i = 0; $i < count($filter); $i++) {
@@ -217,8 +219,8 @@ class DAOShop {
                     $conditions[] = "l.$key = '" . addslashes($value) . "'";
                 } elseif ($key === 'distance_name') {
                     $conditions[] = "d.$key = '" . addslashes($value) . "'";
-                } elseif ($key === 'id_runner') {   
-                    $conditions[] = "rn.id_runner = '" . addslashes($value) . "'";
+                } elseif ($key === 'runner_name') {
+                    $conditions[] = "rn.runner_name = '" . addslashes($value) . "'";
                 } else {
                     $conditions[] = "r.$key = '" . addslashes($value) . "'";
                 }
@@ -303,7 +305,9 @@ class DAOShop {
                     LEFT JOIN land l ON r.id_land = l.id_land
                     LEFT JOIN circuits c ON r.id_circuit = c.id_circuit
                     LEFT JOIN running_extras ON r.id_running = running_extras.id_running
-                    LEFT JOIN distance d ON running_extras.id_distance = d.id_distance";
+                    LEFT JOIN distance d ON running_extras.id_distance = d.id_distance
+                    LEFT JOIN running_runners rrun ON r.id_running = rrun.id_running
+                    LEFT JOIN runners rn ON rrun.id_runner = rn.id_runner";
         $conditions = [];
 
         for ($i = 0; $i < count($filter); $i++) {
@@ -321,8 +325,8 @@ class DAOShop {
                 $conditions[] = "l.$key = '" . addslashes($value) . "'";
             } elseif ($key === 'distance_name') {
                 $conditions[] = "d.$key = '" . addslashes($value) . "'";
-            } elseif ($key === 'id_runner') {
-                $conditions[] = "rn.id_runner = '" . addslashes($value) . "'";
+            } elseif ($key === 'runner_name') {
+                $conditions[] = "rn.runner_name = '" . addslashes($value) . "'";
             } else {
                 $conditions[] = "r.$key = '" . addslashes($value) . "'";
             }

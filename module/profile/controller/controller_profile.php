@@ -48,7 +48,7 @@ switch ($op) {
         header('Content-Type: application/json');
 
         try {
-            // Validar Token JWT
+
             $token_dec = decode_token($_POST['token']);
             if (!$token_dec || !isset($token_dec['username'])) {
                 echo json_encode("error_token");

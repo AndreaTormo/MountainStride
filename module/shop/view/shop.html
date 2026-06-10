@@ -5,17 +5,14 @@
         <h2 class="text-4xl md:text-5xl font-black italic uppercase">Find Your Race</h2>
     </div>
 
-    <!-- Layout: sidebar + grid -->
+    
     <div class="shop-layout">
-        <!-- Sidebar filtros -->
         <aside class="filters_container"></aside>
 
-        <!-- Contenido -->
         <div class="shop-content">
             <div id="content_shop_running" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6"></div>
             <div id="shop-pagination" style="margin-top:16px; display:flex; gap:12px; align-items:center; justify-content:center;"></div>
 
-            <!-- Detalls d'una carrera (ocult per defecte) -->
             <div id="details-shop" style="display:none;">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                     <div id="container-img-shop"></div>
@@ -42,7 +39,6 @@
 </section>
 
 <style>
-    /* ── Layout principal ── */
     .shop-layout {
         display: flex;
         gap: 28px;
@@ -54,7 +50,7 @@
         min-width: 0;
     }
 
-    /* ── Sidebar / Filtros ── */
+
     .filters_container {
         width: 230px;
         flex-shrink: 0;
@@ -62,7 +58,6 @@
         top: 24px;
     }
 
-    /* Misma línea visual que la barra del header (.div_search) */
     .filters {
         width: 100%;
         padding: 18px 14px;
@@ -110,7 +105,7 @@
         font-family: 'Lexend', sans-serif;
     }
 
-    /* ── Radio buttons (Status / Distance) ── */
+    /* ── Radio buttons ── */
     .filter-group label {
         display: flex;
         align-items: center;
@@ -143,7 +138,6 @@
         border-radius: 50%;
         border: 1.5px solid rgba(244,140,37,0.35);
         background: transparent;
-        position: relative;
     }
 
     .filter-group input[type="radio"]:checked {
@@ -158,7 +152,6 @@
         border-radius: 4px;
         border: 1.5px solid rgba(244,140,37,0.35);
         background: transparent;
-        position: relative;
     }
 
     .filter-group input[type="checkbox"]:checked {
@@ -170,7 +163,7 @@
         background-size: 10px;
     }
 
-    /* ── Botones del sidebar (misma familia que .header-search-submit) ── */
+    /* ── Botones del sidebar  ── */
     .filters .boton_filter,
     .filters .filter_remove {
         width: 100%;
@@ -242,7 +235,7 @@
         box-shadow: 0 0 0 2px rgba(244, 140, 37, 0.35);
     }
 
-    /* ── Sort by (select): mismo tratamiento que los selects del header ── */
+    /* ── Sort by ── */
     .filters .shop-orderby-select {
         width: 100%;
         margin-top: 4px;
@@ -407,7 +400,7 @@
         border-color: #ffffff;
     }
 
-    /* ── Responsive: en móvil el sidebar va arriba ── */
+    /* ── Responsive ── */
     @media (max-width: 768px) {
         .shop-layout {
             flex-direction: column;
@@ -597,7 +590,6 @@ function runnings_related(loadeds, type_running) {
         data.forEach(function(r) { if (r.id_running !== undefined) _rel.items.push(r); });
         _rel.loaded = _rel.items.length;
 
-        // Mostrar bloque y rellenar track
         var tc = document.getElementById('title_content');
         if (tc) tc.style.display = '';
         var track = document.getElementById('relatedTrack');
@@ -612,7 +604,6 @@ function runnings_related(loadeds, type_running) {
                 ? '<button class="load_more_button">LOAD MORE</button>' : '';
         }
 
-        // Reset flags de botones para que se re-bindeen
         ['relatedPrev','relatedNext'].forEach(function(id) {
             var b = document.getElementById(id);
             if (b) delete b.dataset.bound;

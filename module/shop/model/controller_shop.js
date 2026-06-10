@@ -20,7 +20,7 @@ function loadShop() {
     
         // Shop amb filtres
         const filtro = JSON.parse(localStorage.getItem('filter')) || null;
-        // console.log("Filtro cargado en loadShop:", filtro);
+
         if (filtro && Array.isArray(filtro) && filtro.length > 0) {
             // console.log("filtro:", filtro);
             SHOP_LAST_URL = "module/shop/controller/controller_shop.php?op=filter";
@@ -232,20 +232,15 @@ function loadDetails(id_running) {
                     <span class='text-amber-300 text-xs uppercase font-bold'>Checkpoints</span>
                     <span class='text-white font-bold'>${extras.checkpoints}</span>
                 </div>
-                ${extras.official_url ? `
-                <div class='col-span-2'>
-                    <a href='${extras.official_url}' target='_blank'
-                    class='flex items-center gap-2 text-primary hover:underline text-sm'>
-                        <i class='material-symbols-outlined text-sm'>open_in_new</i>
-                        Official website
-                    </a>
-                </div>` : ''}
             </div>
             ` : ''}
 
             <div class='flex gap-4'>
                 <button onclick='backToList()' class='flex-1 py-4 border border-primary text-primary font-bold rounded-lg hover:bg-primary hover:text-background-dark transition-all uppercase text-sm'>Back to list</button>
-                <button class='flex-[2] py-4 bg-primary text-background-dark font-bold rounded-lg hover:bg-primary/90 transition-all uppercase text-sm'>Register Now</button>
+                ${extras.official_url
+                    ? `<a href='${extras.official_url}' target='_blank' class='flex-[2] py-4 bg-primary text-background-dark font-bold rounded-lg hover:bg-primary/90 transition-all uppercase text-sm flex items-center justify-center'>Register Now</a>`
+                    : `<button class='flex-[2] py-4 bg-primary text-background-dark font-bold rounded-lg hover:bg-primary/90 transition-all uppercase text-sm'>Register Now</button>`
+                }
             </div>
         `;
         window._id_running_similar = id_running;

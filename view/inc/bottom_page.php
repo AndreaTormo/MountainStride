@@ -1,18 +1,18 @@
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-<!-- Ajax Promise helper -->
+<!-- Ajax Promise -->
 <script src="view/js/promises.js"></script>
 
-<!-- Toastr notifications -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-<!-- Token & Activity management - load on all pages -->
+<!-- Security js-->
+<script src="view/js/security.js"></script>
 <script src="module/login/view/activity_user.js"></script>
 <script src="module/login/view/middleware_auth.js"></script>
 
-<!-- Search controller - load on all pages -->
+<!-- Search controller -->
 <script src="module/search/model/controller_search.js"></script>
 
 <?php
@@ -24,6 +24,7 @@ if ($page === 'controller_login') {
 <?php } elseif ($page === 'controller_profile') { ?>
 <script src="module/profile/model/controller_profile.js"></script>
 <?php } else { ?>
+
 <!-- Home controller -->
 <script src="module/home/model/controller_home.js"></script>
 

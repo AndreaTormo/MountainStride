@@ -111,47 +111,4 @@ switch ($op) {
         }
         break;
 
-        case 'get_liked_events':
-        header('Content-Type: application/json');
-
-        try {
-            if (!isset($_POST['token']) || empty($_POST['token'])) {
-                echo json_encode(["status" => "error", "message" => "No token provided"]);
-                exit;
-            }
-
-            //decodificació del token
-            $token_dec = decode_token($_POST['token']);
-            if (!$token_dec) {
-                echo json_encode(["status" => "error", "message" => "Token decoding failed"]);
-                exit;
-            }
-
-            $username = null;
-            if (is_array($token_dec) && isset($token_dec['username'])) {
-                $username = $token_dec['username'];
-            } elseif (is_object($token_dec) && isset($token_dec->username)) {
-                $username = $token_dec->username;
-            }
-
-            if (!$username) {
-                echo json_encode(["status" => "error", "message" => "Username not found in token payload"]);
-                exit;
-            }
-
-            $daoProfile = new DAOProfile();
-            $rdo = $daoProfile->select_liked_events($username);
-
-            if (!$rdo || !is_array($rdo)) {
-                echo json_encode([]);
-            } else {
-                echo json_encode($rdo);
-            }
-            exit;
-
-        } catch (Exception $e) {
-            echo json_encode(["status" => "error", "message" => $e->getMessage()]);
-            exit;
-        }
-        break;
 }

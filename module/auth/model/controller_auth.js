@@ -1,7 +1,7 @@
 function login() {
     if (validate_login() != 0) {
         var data = $('#login__form').serialize();
-        ajaxPromise('module/login/controller/controller_login.php?op=login', 'POST', 'JSON', data)
+        ajaxPromise('module/auth/controller/controller_auth.php?op=login', 'POST', 'JSON', data)
             .then(function(result) {
                 if (result == "error_user") {
                     document.getElementById('error_username_log').innerHTML = "The user does not exist; please check that you have entered the name correctly"
@@ -10,12 +10,7 @@ function login() {
                 } else {
                     localStorage.setItem("token", result);
                     toastr.success("Loged succesfully");
-
-                    if (localStorage.getItem('redirect_like')) {
-                        setTimeout(' window.location.href = "index.php?module=controller_shop&op=list"; ', 1000);
-                    } else {
-                        setTimeout(' window.location.href = "index.php?module=controller_home&op=list"; ', 1000);
-                    }
+                    setTimeout(' window.location.href = "index.php?module=controller_home&op=list"; ', 1000);
                 }
             }).catch(function(textStatus) {
                 if (console && console.log) {

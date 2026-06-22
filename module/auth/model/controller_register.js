@@ -2,7 +2,7 @@ function register() {
     if (validate_register() != 0) {
         var data = $('#register__form').serialize();
 
-        ajaxPromise('module/login/controller/controller_login.php?op=register', 'POST', 'JSON', data)
+        ajaxPromise('module/auth/controller/controller_auth.php?op=register', 'POST', 'JSON', data)
             .then(function(result) {
                 if (result == "error_email") {
                     document.getElementById('error_email_reg').innerHTML = "This email address is already in use; please make sure you don't already have an account"
@@ -10,7 +10,7 @@ function register() {
                     document.getElementById('error_username_reg').innerHTML = "That username is already taken; please try another one."
                 } else {
                     toastr.success("Register succesfully");
-                    setTimeout(' window.location.href = "index.php?module=controller_login&op=login-register_view"; ', 1000);
+                    setTimeout(' window.location.href = "index.php?module=controller_auth&op=login-register_view"; ', 1000);
                 }
             }).catch(function(textStatus) {
                 if (console && console.log) {

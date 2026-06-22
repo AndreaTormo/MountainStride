@@ -1,21 +1,21 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'] . '/CRUD/Mountain_stride_MVC_v11 - copia_filtros/';
-include($path . "module/login/model/DAO_login.php");
+include($path . "module/auth/model/DAO_auth.php");
 
 @session_start();
 
 switch ($_GET['op'] ?? '') {
 
     case 'login-register_view':
-        include("module/login/view/login_register.html");
+        include("module/auth/view/login_register.html");
         break;
 
     case 'login':
-        $daologin = new DAOLogin();
+        $daoauth = new DAOAuth();
         $username = $_POST['username_log'] ?? '';
         $passwd   = $_POST['passwd_log'] ?? '';
 
-        $user = $daologin->select_user($username);
+        $user = $daoauth->select_user($username);
         if ($user === "error_user") {
             echo json_encode("error_user");
         } elseif (!password_verify($passwd, $user['password'])) {
@@ -29,20 +29,20 @@ switch ($_GET['op'] ?? '') {
         break;
 
     case 'register':
-        $daologin = new DAOLogin();
+        $daoauth = new DAOAuth();
         $username = $_POST['username_reg'] ?? '';
         $email    = $_POST['email_reg'] ?? '';
         $passwd   = $_POST['passwd1_reg'] ?? '';
 
-        if ($daologin->select_email($email)) {
+        if ($daoauth->select_email($email)) {
             echo json_encode("error_email");
             break;
         }
-        if ($daologin->select_user($username) !== "error_user") {
+        if ($daoauth->select_user($username) !== "error_user") {
             echo json_encode("error_user");
             break;
         }
-        if ($daologin->insert_user($username, $email, $passwd)) {
+        if ($daoauth->insert_user($username, $email, $passwd)) {
             echo json_encode("ok");
         } else {
             echo json_encode("error");
@@ -61,13 +61,13 @@ switch ($_GET['op'] ?? '') {
     case 'data_user':
         $token = $_POST['token'] ?? '';
         if ($token === ($_SESSION['token'] ?? '')) {
-            $daologin = new DAOLogin();
-            $user = $daologin->select_user($_SESSION['username'] ?? '');
+            $daoauth = new DAOAuth();
+            $user = $daoauth->select_user($_SESSION['username'] ?? '');
             if ($user !== "error_user") {
                 echo json_encode([
                     'username' => $user['username'],
                     'avatar' => $user['avatar'] ?? 'default-avatar.png',
-                    'role' => $user['type_user'] ?? 'client'
+                    'role' => $user['role'] ?? 'client'
                 ]);
             }
         }
@@ -105,5 +105,10 @@ switch ($_GET['op'] ?? '') {
     default:
         include("view/inc/error404.php");
         break;
+
+    case 'profile';
+        include("module/profile/view/profile.html");
+        break;
+        
 }
 ?>

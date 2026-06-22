@@ -22,6 +22,6 @@ function isLoggedIn() {
 
 function requireLogin() {
     if (!isLoggedIn()) {
-        window.location.href = 'index.php?page=controller_login&op=login-register_view';
+        window.location.href = 'index.php?page=controller_auth&op=login-register_view';
     }
 }

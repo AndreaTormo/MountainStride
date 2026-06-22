@@ -25,7 +25,7 @@
         },
     }
 </script>
-<link href="module/login/view/css/login.css?v=2" rel="stylesheet" type="text/css" />
+<link href="module/auth/view/css/login.css?v=2" rel="stylesheet" type="text/css" />
 <link href="view/css/style.css?v=2" rel="stylesheet" type="text/css" />
 <title>Mountain Stride | Sign In</title>
 </head>

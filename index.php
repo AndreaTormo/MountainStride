@@ -4,7 +4,7 @@
 		include("view/inc/top_page_home.php");
 	} elseif ($page === 'controller_shop') {
 		include("view/inc/top_page_shop.php");
-	} elseif ($page === 'controller_login') {
+	} elseif ($page === 'controller_auth') {
 		include("view/inc/top_page_login.php");
 	} elseif ($page === 'controller_profile') {
 		include("view/inc/top_page_home.php");

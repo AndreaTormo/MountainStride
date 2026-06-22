@@ -1,14 +1,14 @@
 function load_profile_data() {
     var token = localStorage.getItem('token');
     if (!token) {
-        window.location.href = 'index.php?page=controller_login&op=login-register_view';
+        window.location.href = 'index.php?page=controller_auth&op=login-register_view';
         return;
     }
 
     ajaxPromise('module/profile/controller/controller_profile.php?op=get_user_data', 'POST', 'JSON', { token: token })
         .then(function(data) {
             if (data === 'error_token' || data === 'error_user' || data === 'error') {
-                window.location.href = 'index.php?page=controller_login&op=login-register_view';
+                window.location.href = 'index.php?page=controller_auth&op=login-register_view';
                 return;
             }
             $('#profile_display_name').text(data.username);
@@ -50,7 +50,7 @@ function save_profile() {
             } else if (result === 'error_invalid_data') {
                 toastr.error('Invalid data — username min. 5 chars, password min. 8 chars');
             } else if (result === 'error_token') {
-                window.location.href = 'index.php?page=controller_login&op=login-register_view';
+                window.location.href = 'index.php?page=controller_auth&op=login-register_view';
             } else {
                 toastr.error('Error updating profile');
             }

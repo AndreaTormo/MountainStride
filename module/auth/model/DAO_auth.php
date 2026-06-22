@@ -1,8 +1,8 @@
 <?php
-$path = 'C:/wamp64/www/CRUD/Mountain_stride_MVC_v11 - copia_filtros/';
+$path = $_SERVER['DOCUMENT_ROOT'] . '/CRUD/Mountain_stride_MVC_v11 - copia_filtros/';
 include($path . "model/connect.php");
 
-class DAOLogin {
+class DAOAuth {
 
     function select_email($email) {
         $sql = "SELECT email FROM users WHERE email = :email";
@@ -19,7 +19,7 @@ class DAOLogin {
         $hashavatar = md5(strtolower(trim($email)));
         $avatar = "https://i.pravatar.cc/500?u=$hashavatar";
         $sql = "INSERT INTO users (username, password, email, role, avatar)
-                VALUES (:username, :password, :email, 'user', :avatar)";
+                VALUES (:username, :password, :email, 'client', :avatar)";
         $conexion = connect::con();
         $stmt = $conexion->prepare($sql);
         $res = $stmt->execute([
@@ -36,7 +36,9 @@ class DAOLogin {
         $sql = "SELECT username, password, email, role, avatar FROM users WHERE username = :username";
         $conexion = connect::con();
         $stmt = $conexion->prepare($sql);
-        $stmt->execute([':username' => $username]);
+        $stmt->bindValue(':username', $username);
+        $stmt->execute();
+
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
         connect::close($conexion);
 
@@ -47,14 +49,22 @@ class DAOLogin {
         }
     }
 
+
     function select_data_user($username) {
         $sql = "SELECT * FROM users WHERE username = :username";
         $conexion = connect::con();
         $stmt = $conexion->prepare($sql);
-        $stmt->execute([':username' => $username]);
+        $stmt->bindValue(':username', $username);
+        $stmt->execute();
+
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
         connect::close($conexion);
-        return $res;
+
+        if ($res) {
+            return $res;
+        } else {
+            return "error_user";
+        }
     }
 
 }

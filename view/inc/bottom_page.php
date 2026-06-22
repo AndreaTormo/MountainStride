@@ -9,18 +9,18 @@
 
 <!-- Security js-->
 <script src="view/js/security.js"></script>
-<script src="module/login/view/activity_user.js"></script>
-<script src="module/login/view/middleware_auth.js"></script>
+<script src="module/auth/view/activity_user.js"></script>
+<script src="module/auth/view/middleware_auth.js"></script>
 
 <!-- Search controller -->
 <script src="module/search/model/controller_search.js"></script>
 
 <?php
 $page = $_GET['page'] ?? ($_GET['module'] ?? '');
-if ($page === 'controller_login') {
+if ($page === 'controller_auth') {
 ?>
-<script src="module/login/model/controller_login.js"></script>
-<script src="module/login/model/controller_register.js"></script>
+<script src="module/auth/model/controller_auth.js"></script>
+<script src="module/auth/model/controller_register.js"></script>
 <?php } elseif ($page === 'controller_profile') { ?>
 <script src="module/profile/model/controller_profile.js"></script>
 <?php } else { ?>
